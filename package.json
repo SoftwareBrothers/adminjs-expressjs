@@ -1,0 +1,25 @@
+{
+  "name": "admin-bro-expressjs",
+  "version": "0.1.0",
+  "description": "This is an official AdminBro plugin which integrates it to expressjs framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SoftwareBrothers/admin-bro-expressjs.git"
+  },
+  "keywords": [
+    "expressjs",
+    "admin",
+    "adminbro",
+    "admin-panel"
+  ],
+  "author": "Michał Laskowski",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SoftwareBrothers/admin-bro-expressjs/issues"
+  },
+  "homepage": "https://github.com/SoftwareBrothers/admin-bro-expressjs#readme"
+}
