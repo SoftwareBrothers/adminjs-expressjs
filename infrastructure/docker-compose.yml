@@ -1,0 +1,33 @@
+version: "2.1"
+services:
+  admin-express-app:
+    container_name: admin-express-app
+    restart: always
+    build:
+      context: ../
+      dockerfile: ./infrastructure/Dockerfile
+    ports:
+      - "8080:8080"
+    links:
+      - admin-express-mongo
+    volumes:
+      - ../:/usr/src/app
+      - /usr/src/app/node_modules
+    command: "npm run simple"
+    env_file: '.env'
+    depends_on:
+      admin-express-mongo:
+        condition: service_healthy
+
+  admin-express-mongo:
+    container_name: admin-express-mongo
+    image: mongo
+    volumes:
+      - ./data:/data/db
+    ports:
+      - "27017:27017"
+    healthcheck:
+      test: 'timeout 2 bash -c "</dev/tcp/localhost/27017"'
+      interval: 5s
+      timeout: 5s
+      retries: 10

@@ -4,7 +4,7 @@
   "description": "This is an official AdminBro plugin which integrates it to expressjs framework",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "simple": "nodemon examples/simple.js"
   },
   "repository": {
     "type": "git",
@@ -21,5 +21,15 @@
   "bugs": {
     "url": "https://github.com/SoftwareBrothers/admin-bro-expressjs/issues"
   },
-  "homepage": "https://github.com/SoftwareBrothers/admin-bro-expressjs#readme"
+  "homepage": "https://github.com/SoftwareBrothers/admin-bro-expressjs#readme",
+  "dependencies": {
+    "admin-bro": "^0.1.2",
+    "admin-bro-mongoose": "^0.1.1",
+    "express": "^4.16.4",
+    "serve-static": "^1.13.2"
+  },
+  "devDependencies": {
+    "mongoose": "^5.3.16",
+    "nodemon": "^1.18.8"
+  }
 }
