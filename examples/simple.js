@@ -1,17 +1,19 @@
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
+const mongoUrl = process.env.MONGO_URL || 'mongodb://localhost:27017/mongo-examples'
 const mongoose = require('mongoose');
 const AdminBroExress = require('../plugin')
 const AdminBroMongose = require('admin-bro-mongoose')
 const AdminBro = require('admin-bro')
+
 AdminBro.registerAdapter(AdminBroMongose)
 
 require('./mongoose/article-model')
 require('./mongoose/admin-model')
 
 const start = async () => {
-  const connection = await mongoose.connect('mongodb://localhost:27017/mongo-examples')
+  const connection = await mongoose.connect(mongoUrl)
 
   const adminRootPath = '/admin'
   const adminBroOptions = {
@@ -21,7 +23,8 @@ const start = async () => {
     },
     adminRootPath,
   }
-  const adminRouter = await AdminBroExress.register(adminBroOptions)
+  const adminRouter = await AdminBroExress.register(app, adminBroOptions)
+
   app.use(adminRootPath, adminRouter)
 
   app.listen(port, () => console.log(`Listening on port ${port}`))

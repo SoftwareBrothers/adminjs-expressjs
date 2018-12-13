@@ -25,8 +25,8 @@
   "dependencies": {
     "admin-bro": "^0.1.2",
     "admin-bro-mongoose": "^0.1.1",
-    "express": "^4.16.4",
-    "serve-static": "^1.13.2"
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4"
   },
   "devDependencies": {
     "mongoose": "^5.3.16",
