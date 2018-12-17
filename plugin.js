@@ -31,10 +31,16 @@ module.exports = {
       }
 
       if (route.method === "GET") {
+        if (options.auth) {
+          router.get(expressPath, options.auth,  handler)
+        }
         router.get(expressPath, handler)
       }
 
       if (route.method === 'POST') {
+        if (options.auth) {
+          router.post(expressPath, options.auth,  handler)
+        }
         router.post(expressPath, handler)
       }
     })
@@ -46,5 +52,5 @@ module.exports = {
     })
 
     return router
-  },
+  }
 }

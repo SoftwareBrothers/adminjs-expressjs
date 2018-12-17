@@ -3,7 +3,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 const mongoUrl = process.env.MONGO_URL || 'mongodb://localhost:27017/mongo-examples'
 const mongoose = require('mongoose');
-const AdminBroExress = require('../plugin')
+const AdminBroExpress = require('../plugin')
 const AdminBroMongose = require('admin-bro-mongoose')
 const AdminBro = require('admin-bro')
 
@@ -23,7 +23,7 @@ const start = async () => {
     },
     adminRootPath,
   }
-  const adminRouter = await AdminBroExress.register(app, adminBroOptions)
+  const adminRouter = await AdminBroExpress.register(app, adminBroOptions)
 
   app.use(adminRootPath, adminRouter)
 
