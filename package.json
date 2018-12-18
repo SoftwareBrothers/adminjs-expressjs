@@ -4,7 +4,8 @@
   "description": "This is an official AdminBro plugin which integrates it to expressjs framework",
   "main": "index.js",
   "scripts": {
-    "simple": "nodemon examples/simple.js"
+    "simple": "nodemon examples/simple.js",
+    "lint": "./node_modules/eslint/bin/eslint.js './examples/**/*.js' './plugin.js'"
   },
   "repository": {
     "type": "git",
@@ -18,17 +19,25 @@
   ],
   "author": "Michał Laskowski",
   "license": "MIT",
+  "peerDependencies": {
+    "admin-bro": ">=0.2.0",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4"
+  },
   "bugs": {
     "url": "https://github.com/SoftwareBrothers/admin-bro-expressjs/issues"
   },
   "homepage": "https://github.com/SoftwareBrothers/admin-bro-expressjs#readme",
   "dependencies": {
-    "admin-bro": "^0.1.2",
-    "admin-bro-mongoose": "^0.1.1",
+    "admin-bro": ">=0.2.0",
     "body-parser": "^1.18.3",
     "express": "^4.16.4"
   },
   "devDependencies": {
+    "admin-bro-mongoose": "^0.1.4",
+    "eslint": "^5.10.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
     "mongoose": "^5.3.16",
     "nodemon": "^1.18.8"
   }
