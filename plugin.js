@@ -9,6 +9,11 @@ module.exports = {
   name: 'AdminBroExpressjs',
   version: '0.1.0',
 
+  /**
+  * build the plugin
+  * @param  {Object} options                         options passed to AdminBro
+  * @return {AdminBro}                               adminBro instance
+  */
   buildExpressRouter: async (options) => {
     const { routes, assets } = AdminBro.Router
     const admin = new AdminBro(options)
