@@ -1,11 +1,12 @@
-const express = require('express');
-const app = express();
-const port = process.env.PORT || 3000;
+const express = require('express')
+
+const app = express()
+const port = process.env.PORT || 3000
 const mongoUrl = process.env.MONGO_URL || 'mongodb://localhost:27017/mongo-examples'
-const mongoose = require('mongoose');
-const AdminBroExpress = require('../plugin')
-const AdminBroMongose = require('admin-bro-mongoose')
+const mongoose = require('mongoose')
 const AdminBro = require('admin-bro')
+const AdminBroMongose = require('admin-bro-mongoose')
+const AdminBroExpress = require('../plugin')
 
 AdminBro.registerAdapter(AdminBroMongose)
 
@@ -23,13 +24,12 @@ const start = async () => {
     },
     adminRootPath,
   }
-  const adminRouter = await AdminBroExpress.register(app, adminBroOptions)
+  const adminRouter = await AdminBroExpress.buildExpressRouter(adminBroOptions)
 
   app.use(adminRootPath, adminRouter)
 
+  // eslint-disable-next-line no-console
   app.listen(port, () => console.log(`Listening on port ${port}`))
 }
 
 start()
-
-
