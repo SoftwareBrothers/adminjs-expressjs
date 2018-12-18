@@ -22,6 +22,7 @@ module.exports = {
     router.use(bodyParser.urlencoded({ extended: true }))
 
     routes.forEach((route) => {
+      // we have to change routes defined in admin bro from {recordId} to :recordId
       const expressPath = route.path.replace(/{/g, ':').replace(/}/g, '')
       const handler = async (req, res) => {
         try {
