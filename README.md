@@ -14,7 +14,8 @@ const adminBroOptions = {
   branding: {
     companyName: 'Amazing c.o.',
   },
-  adminRootPath,
+  rootPath: adminRootPath,
+  auth: authMiddleware
   // ...and other options
 }
 
@@ -28,6 +29,7 @@ To see all standard admin-bro options - please visit: https://github.com/Softwar
 
 In examples folder we prepared one working example:
 * [simplest integration with mongodb database](examples/simple.js)
+* [simplest integration with cookie](examples/auth.js)
 
 You can run one of them by typing:
 
