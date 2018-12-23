@@ -22,9 +22,9 @@ const start = async () => {
     branding: {
       companyName: 'Amazing c.o.',
     },
-    adminRootPath,
+    rootPath: adminRootPath,
   }
-  const adminRouter = await AdminBroExpress.buildExpressRouter(adminBroOptions)
+  const adminRouter = await AdminBroExpress.buildExpressRouter(app, adminBroOptions)
 
   app.use(adminRootPath, adminRouter)
 
