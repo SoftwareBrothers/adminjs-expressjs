@@ -7,9 +7,11 @@ const session = require('express-session')
 const path = require('path')
 const bodyParser = require('body-parser')
 
+const pkg = require('./package.json')
+
 const Plugin = {
   name: 'AdminBroExpressjs',
-  version: '0.1.0',
+  version: pkg.version,
 
   /**
    * Builds the express router handling all the pages and assets
