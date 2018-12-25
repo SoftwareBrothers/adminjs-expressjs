@@ -1,102 +1,132 @@
 const express = require('express')
 const AdminBro = require('admin-bro')
+const cookieParser = require('cookie-parser')
+const session = require('express-session')
 
-const router = express.Router()
 const path = require('path')
 const bodyParser = require('body-parser')
-const SessionAuth = require('./extensions/session-auth')
 
-module.exports = {
+const Plugin = {
   name: 'AdminBroExpressjs',
   version: '0.1.0',
 
   /**
-  * build the plugin
-  * @param  {Object} options                         options passed to AdminBro
-  * @param  {Object} options.auth
-  * @param  {Object} [options.auth.authenticate]     function taking email and password
-  *                                                  as an arguments. Should return logged in
-  *                                                  user or null (no authorization). If given
-  *                                                  options.auth.authMiddleware is set.
-  * @param  {Object} [options.auth.authMiddleware]   auth middleware for expressjs routes
-  *                                                  by default is set to none
-  * @param  {Object} [options.auth.cookieName=adminBro] When auth strategy is set to session this
-  *                                                     will be the name for the cookie.
-  * @param  {Object} [options.auth.cookiePassword]   cookie password for session strategy*
-  * @return {AdminBro}                               adminBro instance
+   * Builds the express router handling all the pages and assets
+   *
+   * @param  {AdminBro} adminBro                    instance of adminBro
+   * @param  {express.Router} [predefinedRouter]    expressjs router
+   * @return {express.Router}                       expressjs router
   */
-  buildExpressRouter: async (app, options) => {
+  buildRouter: (admin, predefinedRouter) => {
     const { routes, assets } = AdminBro.Router
-    const admin = new AdminBro(options)
-    let authMiddleware = options.auth && options.auth.strategy
+    const router = predefinedRouter || express.Router()
 
     router.use(bodyParser.json())
     router.use(bodyParser.urlencoded({ extended: true }))
 
-    if (options.auth && options.auth.authenticate) {
-      if (authMiddleware) {
-        throw new Error(`When you gives auth.authenticate as a parameter - auth middleware is set to function that check if user is logged in.
-                         Please remove auth.authMiddleware from authentication parameters.`)
-      }
-
-      authMiddleware = async (req, res, next) => {
-        if (req.session.admin) {
-          next()
-        } else {
-          res.redirect(admin.options.loginPath)
-        }
-      }
-
-      await SessionAuth(app, {
-        logoutPath: admin.options.logoutPath,
-        loginPath: admin.options.loginPath,
-        rootPath: admin.options.rootPath,
-        cookieName: 'admin-bro',
-        ...options.auth,
-      }, AdminBro)
-    }
-
     routes.forEach((route) => {
       // we have to change routes defined in admin bro from {recordId} to :recordId
       const expressPath = route.path.replace(/{/g, ':').replace(/}/g, '')
+
       const handler = async (req, res) => {
         try {
-          const controller = new route.Controller({ admin })
+          const controller = new route.Controller({ admin }, req.adminUser)
           const { params, query } = req
           const payload = req.body
-          const ret = await controller[route.action]({ params, query, payload }, res)
-          res.send(ret)
+          const html = await controller[route.action]({ params, query, payload }, res)
+          if (html) {
+            res.send(html)
+          }
         } catch (e) {
           // eslint-disable-next-line no-console
           console.log(e)
         }
       }
 
-      const isAuthSession = options.auth && authMiddleware
-
       if (route.method === 'GET') {
-        if (isAuthSession) {
-          router.get(expressPath, authMiddleware, handler)
-        } else {
-          router.get(expressPath, handler)
-        }
+        router.get(expressPath, handler)
       }
 
       if (route.method === 'POST') {
-        if (isAuthSession) {
-          router.post(expressPath, authMiddleware, handler)
-        } else {
-          router.post(expressPath, handler)
-        }
+        router.post(expressPath, handler)
       }
     })
 
     assets.forEach((asset) => {
       router.get(asset.path, async (req, res) => {
-        res.sendfile(path.resolve(asset.src))
+        res.sendFile(path.resolve(asset.src))
       })
     })
 
     return router
   },
+
+  /**
+   * Builds the express router which requires authentication
+   *
+   * @param  {AdminBro} adminBro                    instance of adminBro
+   * @param  {Object} auth                          authenticatino options
+   * @param  {Function} auth.authenticate           function taking 2 arguments: email
+   *                                                and password. Returns authenticated
+   *                                                user or null in case of wrong email
+   *                                                and/or password
+   * @param  {String} auth.cookiePassword           secret used to encrypt cookies
+   * @param  {String} auth.cookieName=adminbro      cookie name
+   * @param  {express.Router} [predefinedRouter]    expressjs router
+   * @return {express.Router}                       expressjs router
+  */
+  buildAuthenticatedRouter(admin, auth, predefinedRouter) {
+    const router = predefinedRouter || express.Router()
+    router.use(cookieParser())
+    router.use(session({
+      secret: auth.cookiePassword,
+      name: auth.cookieName || 'adminbro',
+    }))
+    router.use(bodyParser.json())
+    router.use(bodyParser.urlencoded({ extended: true }))
+
+    const { rootPath } = admin.options
+    let { loginPath, logoutPath } = admin.options
+    loginPath = loginPath.replace(rootPath, '')
+    logoutPath = logoutPath.replace(rootPath, '')
+
+    router.get(loginPath, async (req, res) => {
+      const login = await AdminBro.renderLogin({ action: admin.options.loginPath })
+      res.send(login)
+    })
+
+    router.post(loginPath, async (req, res) => {
+      const { email, password } = req.body
+      const adminUser = await auth.authenticate(email, password)
+      if (adminUser) {
+        req.session.adminUser = adminUser
+        res.redirect(rootPath)
+      } else {
+        const login = await AdminBro.renderLogin({
+          action: admin.options.loginPath,
+          errorMessage: 'Invalid credentials!',
+        })
+        res.send(login)
+      }
+    })
+
+    router.use((req, res, next) => {
+      if (AdminBro.Router.assets.find(asset => req.originalUrl.match(asset.path))) {
+        next()
+      } else if (req.session.adminUser) {
+        next()
+      } else {
+        res.redirect(admin.options.loginPath)
+      }
+    })
+
+    router.get(logoutPath, async (req, res) => {
+      req.session.destroy()
+      res.redirect(admin.options.loginPath)
+    })
+
+    return Plugin.buildRouter(admin, router)
+  },
 }
+
+module.exports = Plugin
