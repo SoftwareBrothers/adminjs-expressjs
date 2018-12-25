@@ -81,7 +81,7 @@ const Plugin = {
   buildAuthenticatedRouter(admin, auth, predefinedRouter) {
     if (!cookieParser || !session) {
       throw new Error(['In order to use authentication you have to install',
-                       'cookie-parser and express-session packages'].join(' '))
+        'cookie-parser and express-session packages'].join(' '))
     }
     const router = predefinedRouter || express.Router()
     router.use(cookieParser())
