@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "simple": "nodemon examples/simple.js",
-    "lint": "./node_modules/eslint/bin/eslint.js './extensions/**/*.js' './examples/**/*.js' './plugin.js'"
+    "lint": "./node_modules/eslint/bin/eslint.js './examples/**/*.js' './plugin.js'"
   },
   "repository": {
     "type": "git",
