@@ -1,35 +1,29 @@
-const express = require('express')
-
-const app = express()
-const port = process.env.PORT || 3000
-const mongoUrl = process.env.MONGO_URL || 'mongodb://localhost:27017/mongo-examples'
-const mongoose = require('mongoose')
 const AdminBro = require('admin-bro')
-const AdminBroMongose = require('admin-bro-mongoose')
-const AdminBroExpress = require('../plugin')
+const express = require('express')
+const mongoose = require('mongoose')
 
-AdminBro.registerAdapter(AdminBroMongose)
+AdminBro.registerAdapter(require('admin-bro-mongoose'))
 
+const AdminBroExpress = require('../index')
+
+// load the database models
 require('./mongoose/article-model')
 require('./mongoose/admin-model')
 
+
 const start = async () => {
-  const connection = await mongoose.connect(mongoUrl)
+  const connection = await mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost:27017/example')
+  const app = express()
 
-  const adminRootPath = '/admin'
-  const adminBroOptions = {
+  const adminBro = new AdminBro({
     databases: [connection],
-    branding: {
-      companyName: 'Amazing c.o.',
-    },
-    rootPath: adminRootPath,
-  }
-  const adminRouter = await AdminBroExpress.buildExpressRouter(app, adminBroOptions)
+    rootPath: '/admin',
+  })
+  const router = AdminBroExpress.buildRouter(adminBro)
 
-  app.use(adminRootPath, adminRouter)
+  app.use(adminBro.options.rootPath, router)
 
-  // eslint-disable-next-line no-console
-  app.listen(port, () => console.log(`Listening on port ${port}`))
+  app.listen(8080, () => console.log('AdminBro is under localhost:8080/admin'))
 }
 
 start()

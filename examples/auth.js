@@ -1,63 +1,42 @@
-const express = require('express')
-
-const app = express()
-const port = process.env.PORT || 3000
-const mongoUrl = process.env.MONGO_URL || 'mongodb://localhost:27017/mongo-examples'
-const cookiePassword = process.env.ADMIN_COOKIE_SECRET || 'yoursupersecretcookiepassword-veryveryverylong'
-const mongoose = require('mongoose')
-const Bcrypt = require('bcrypt')
-const cookieParser = require('cookie-parser')
-const bodyParser = require('body-parser')
-const session = require('express-session')
 const AdminBro = require('admin-bro')
-const AdminBroMongose = require('admin-bro-mongoose')
-const AdminBroExpress = require('../plugin')
-const Admin = require('./mongoose/admin-model')
+const express = require('express')
+const mongoose = require('mongoose')
 
+AdminBro.registerAdapter(require('admin-bro-mongoose'))
 
-AdminBro.registerAdapter(AdminBroMongose)
+const AdminBroExpress = require('../index')
 
-const createAdminIfNone = async () => {
-  const existingAdmin = await Admin.countDocuments() > 0
-  if (!existingAdmin) {
-    const password = await Bcrypt.hash('password', 10)
-    const admin = new Admin({ email: 'test@example.com', password })
-    await admin.save()
-  }
+// load the database models
+require('./mongoose/article-model')
+require('./mongoose/admin-model')
+
+const ADMIN = {
+  email: 'test@example.com',
+  password: 'password',
 }
 
 const start = async () => {
-  const connection = await mongoose.connect(mongoUrl)
+  const connection = await mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost:27017/example')
+  const app = express()
 
-  await createAdminIfNone()
-
-  app.use(bodyParser.json())
-  app.use(bodyParser.urlencoded({ extended: false }))
-  app.use(cookieParser())
-  app.use(session({ secret: cookiePassword }))
-
-  const adminRootPath = '/admin'
-  const adminBroOptions = {
+  const adminBro = new AdminBro({
     databases: [connection],
-    branding: {
-      companyName: 'Amazing c.o.',
-    },
-    rootPath: adminRootPath,
-    auth: {
-      authenticate: async (email, password) => {
-        const admin = await Admin.findOne({ email })
-        const isValid = admin && await Bcrypt.compare(password, admin.password)
-        return isValid && admin
-      },
-      cookiePassword,
-    },
-  }
-  const adminRouter = await AdminBroExpress.buildExpressRouter(app, adminBroOptions)
+    rootPath: '/admin',
+  })
 
-  app.use(adminRootPath, adminRouter)
+  const router = AdminBroExpress.buildAuthenticatedRouter(adminBro, {
+    authenticate: async (email, password) => {
+      if (ADMIN.password === password && ADMIN.email === email) {
+        return ADMIN
+      }
+      return null
+    },
+    cookiePassword: 'somasd1nda0asssjsdhb21uy3g',
+  })
 
-  // eslint-disable-next-line no-console
-  app.listen(port, () => console.log(`Listening on port ${port}`))
+  app.use(adminBro.options.rootPath, router)
+
+  app.listen(8080, () => console.log('AdminBro is under localhost:8080/admin'))
 }
 
 start()
