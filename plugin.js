@@ -1,5 +1,6 @@
 const express = require('express')
 const AdminBro = require('admin-bro')
+
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
 
@@ -76,6 +77,10 @@ const Plugin = {
    * @return {express.Router}                       expressjs router
   */
   buildAuthenticatedRouter(admin, auth, predefinedRouter) {
+    if (!cookieParser || !session) {
+      throw new Error(['In order to use authentication you have to install',
+                       'cookie-parser and express-session packages'].join(' '))
+    }
     const router = predefinedRouter || express.Router()
     router.use(cookieParser())
     router.use(session({
