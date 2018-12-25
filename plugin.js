@@ -1,11 +1,18 @@
 const express = require('express')
 const AdminBro = require('admin-bro')
 
-const cookieParser = require('cookie-parser')
-const session = require('express-session')
-
 const path = require('path')
 const bodyParser = require('body-parser')
+
+let cookieParser
+let session
+
+try {
+  cookieParser = require('cookie-parser') // eslint-disable-line global-require
+  session = require('express-session') // eslint-disable-line global-require
+} catch (e) {
+  console.info('cookie-parser and express-session were not required')
+}
 
 const pkg = require('./package.json')
 
