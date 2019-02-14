@@ -17,11 +17,11 @@ try {
 }
 
 /**
- * Builds the Express Router handling all the pages and assets
+ * Builds the Express Router that handles all the pages and assets
  *
- * @param  {AdminBro} admin                       instance of adminBro
- * @param  {express.Router} [predefinedRouter]    expressjs router
- * @return {express.Router}                       expressjs router
+ * @param  {AdminBro} admin                       instance of AdminBro
+ * @param  {express.Router} [predefinedRouter]    Express.js router
+ * @return {express.Router}                       Express.js router
  * @function
  * @static
  * @memberof module:admin-bro-expressjs
@@ -34,7 +34,7 @@ const buildRouter = (admin, predefinedRouter) => {
   router.use(bodyParser.urlencoded({ extended: true }))
 
   routes.forEach((route) => {
-    // we have to change routes defined in admin bro from {recordId} to :recordId
+    // we have to change routes defined in AdminBro from {recordId} to :recordId
     const expressPath = route.path.replace(/{/g, ':').replace(/}/g, '')
 
     const handler = async (req, res) => {
@@ -71,21 +71,21 @@ const buildRouter = (admin, predefinedRouter) => {
 }
 
 /**
- * Builds the Express Router which is protected by session auth
+ * Builds the Express Router which is protected by a session auth
  *
- * Using the ruter requires you to install both `express-session` and `cookie-parser` as a
+ * Using the router requires you to install both `express-session` and `cookie-parser` as a
  * dependency.
  *
- * @param  {AdminBro} admin                    instance of adminBro
- * @param  {Object} auth                          authenticatino options
- * @param  {Function} auth.authenticate           function taking 2 arguments: email
+ * @param  {AdminBro} admin                    instance of AdminBro
+ * @param  {Object} auth                          authentication options
+ * @param  {Function} auth.authenticate           function takes 2 arguments: email
  *                                                and password. Returns authenticated
- *                                                user or null in case of wrong email
+ *                                                user or null, in case of a wrong email
  *                                                and/or password
  * @param  {String} auth.cookiePassword           secret used to encrypt cookies
  * @param  {String} auth.cookieName=adminbro      cookie name
- * @param  {express.Router} [predefinedRouter]    expressjs router
- * @return {express.Router}                       expressjs router
+ * @param  {express.Router} [predefinedRouter]    Express.js router
+ * @return {express.Router}                       Express.js router
  * @static
  * @memberof module:admin-bro-expressjs
  * @example
@@ -107,7 +107,7 @@ const buildRouter = (admin, predefinedRouter) => {
 */
 const buildAuthenticatedRouter = (admin, auth, predefinedRouter) => {
   if (!cookieParser || !session) {
-    throw new Error(['In order to use authentication you have to install',
+    throw new Error(['In order to use authentication, you have to install',
       'cookie-parser and express-session packages'].join(' '))
   }
   const router = predefinedRouter || express.Router()
