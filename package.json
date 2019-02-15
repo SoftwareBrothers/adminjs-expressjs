@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "simple": "nodemon examples/simple.js",
+    "test": "./node_modules/.bin/mocha spec/index.js",
     "lint": "./node_modules/eslint/bin/eslint.js './examples/**/*.js' './plugin.js'"
   },
   "repository": {
@@ -26,21 +27,25 @@
   "peerDependencies": {
     "admin-bro": ">=0.2.0",
     "body-parser": ">=1.18.3",
+    "cookie-parser": ">=1.4.3",
     "express": ">=4.16.4",
-    "express-session": ">=1.15.6",
-    "cookie-parser": ">=1.4.3"
+    "express-session": ">=1.15.6"
   },
   "devDependencies": {
     "admin-bro": ">=0.2.0",
     "admin-bro-mongoose": "^0.1.4",
     "body-parser": "^1.18.3",
+    "chai": "^4.2.0",
+    "cookie-parser": ">=1.4.3",
     "eslint": "^5.10.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
     "express": "^4.16.4",
+    "express-session": ">=1.15.6",
+    "mocha": "^5.2.0",
     "mongoose": "^5.3.16",
     "nodemon": "^1.18.8",
-    "express-session": ">=1.15.6",
-    "cookie-parser": ">=1.4.3"
+    "sinon": "^7.2.3",
+    "sinon-chai": "^3.3.0"
   }
 }

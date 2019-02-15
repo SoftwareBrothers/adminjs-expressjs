@@ -27,6 +27,11 @@ try {
  * @memberof module:admin-bro-expressjs
 */
 const buildRouter = (admin, predefinedRouter) => {
+  if (!admin || admin.constructor.name !== 'AdminBro') {
+    const e = new Error('you have to pass an instance of AdminBro to the buildRouter() function')
+    e.name = 'WrongArgumentError'
+    throw e
+  }
   const { routes, assets } = AdminBro.Router
   const router = predefinedRouter || express.Router()
 
