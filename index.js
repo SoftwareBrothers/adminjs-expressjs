@@ -2,7 +2,7 @@
  * @module admin-bro-expressjs
  *
  * @description
- * Plugin which allows you to add AdminBro to expressjs applications.
+ * Plugin that allows you to add AdminBro to Express.js applications.
  *
  * ## Installation
  *
@@ -16,13 +16,13 @@
  * const AdminBroExpress = require('admin-bro-expressjs')
  * ```
  *
- * It exposes 2 methods which creates an Express Router which can be attached
- * to given url in the API. Each method takes an preconfigured instance of {@link AdminBro}.
+ * It exposes 2 methods that create an Express Router, which can be attached
+ * to a given url in the API. Each method takes a preconfigured instance of {@link AdminBro}.
  *
  * - {@link module:admin-bro-expressjs.buildRouter AdminBroExpress.buildRouter(admin, [predefinedRouter])}
  * - {@link module:admin-bro-expressjs.buildAuthenticatedRouter AdminBroExpress.buildAuthenticatedRouter(admin, auth, [predefinedRouter])}
  *
- * If you want to use a router you have already created - it is not a problem. Just pass it
+ * If you want to use a router you have already created - not a problem. Just pass it
  * as a `predefinedRouter` parameter.
  * 
  * You may want to use this option when you want to include
@@ -49,12 +49,12 @@
  *
  * ## Using build in authentication
  *
- * To protect the routes with an session authentication you can use predefined
+ * To protect the routes with a session authentication, you can use predefined
  * {@link module:admin-bro-expressjs.buildAuthenticatedRouter} method.
  *
  * ## Adding custom authentication
  *
- * Also you can add your custom authentication setup by first, creating the router, and then
+ * You can add your custom authentication setup by firstly creating the router and then
  * passing it via the `predefinedRouter` option.
  *
  * ```
