@@ -45,8 +45,12 @@ const buildRouter = (admin, predefinedRouter) => {
     const handler = async (req, res) => {
       try {
         const controller = new route.Controller({ admin }, req.adminUser)
+        const { params, query } = req
+        const method = req.method.toLowerCase()
         const payload = req.body
-        const html = await controller[route.action]({ ...req, payload }, res)
+        const html = await controller[route.action]({
+          ...req, params, query, payload, method,
+        }, res)
         if (html) {
           res.send(html)
         }
