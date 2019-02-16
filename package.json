@@ -1,6 +1,6 @@
 {
   "name": "admin-bro-expressjs",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "This is an official AdminBro plugin which integrates it to expressjs framework",
   "main": "index.js",
   "scripts": {
