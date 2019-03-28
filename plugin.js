@@ -44,7 +44,7 @@ const buildRouter = (admin, predefinedRouter) => {
 
     const handler = async (req, res) => {
       try {
-        const controller = new route.Controller({ admin }, req.adminUser)
+        const controller = new route.Controller({ admin }, req.session && req.session.adminUser)
         const { params, query } = req
         const method = req.method.toLowerCase()
         const payload = req.body
