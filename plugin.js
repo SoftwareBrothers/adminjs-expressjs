@@ -51,6 +51,9 @@ const buildRouter = (admin, predefinedRouter) => {
         const html = await controller[route.action]({
           ...req, params, query, payload, method,
         }, res)
+        if (route.contentType) {
+          res.set({ 'Content-Type': route.contentType })
+        }
         if (html) {
           res.send(html)
         }
