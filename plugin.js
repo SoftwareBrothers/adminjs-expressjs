@@ -32,6 +32,11 @@ const buildRouter = (admin, predefinedRouter) => {
     e.name = 'WrongArgumentError'
     throw e
   }
+
+  admin.initialize().then(() => {
+    console.log('AdminBro: bundle ready')
+  })
+
   const { routes, assets } = AdminBro.Router
   const router = predefinedRouter || express.Router()
 
