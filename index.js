@@ -52,9 +52,9 @@
  * To protect the routes with a session authentication, you can use predefined
  * {@link module:admin-bro-expressjs.buildAuthenticatedRouter} method.
  *
- * Note! To use authentication in production environment, there is need to configure
- * express-session for production build. It can be achieved by passing options by
- * `sessionOptions` parameter. Read more in [express/session Github page](https://github.com/expressjs/session)
+ * Note! To use authentication in production environment, there is a need to configure
+ * express-session for production build. It can be achieved by passing options to
+ * `sessionOptions` parameter. Read more on [express/session Github page](https://github.com/expressjs/session)
  *
  * ## Adding custom authentication
  *
