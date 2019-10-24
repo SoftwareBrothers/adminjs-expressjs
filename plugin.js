@@ -6,14 +6,12 @@ const bodyParser = require('body-parser')
 
 const pkg = require('./package.json')
 
-let cookieParser
 let session
 
 try {
-  cookieParser = require('cookie-parser') // eslint-disable-line global-require
   session = require('express-session') // eslint-disable-line global-require
 } catch (e) {
-  console.info('cookie-parser and express-session were not required')
+  console.info('express-session was not required')
 }
 
 /**
@@ -89,7 +87,7 @@ const buildRouter = (admin, predefinedRouter) => {
 /**
  * Builds the Express Router which is protected by a session auth
  *
- * Using the router requires you to install both `express-session` and `cookie-parser` as a
+ * Using the router requires you to install `express-session` as a
  * dependency.
  *
  * @param  {AdminBro} admin                    instance of AdminBro
@@ -101,6 +99,7 @@ const buildRouter = (admin, predefinedRouter) => {
  * @param  {String} auth.cookiePassword           secret used to encrypt cookies
  * @param  {String} auth.cookieName=adminbro      cookie name
  * @param  {express.Router} [predefinedRouter]    Express.js router
+ * @param  {session.options} [sessionOptions]     Options that are passed to express-session
  * @return {express.Router}                       Express.js router
  * @static
  * @memberof module:admin-bro-expressjs
@@ -121,14 +120,14 @@ const buildRouter = (admin, predefinedRouter) => {
  *   cookiePassword: 'somepassword',
  * }, [router])
 */
-const buildAuthenticatedRouter = (admin, auth, predefinedRouter) => {
-  if (!cookieParser || !session) {
+const buildAuthenticatedRouter = (admin, auth, predefinedRouter, sessionOptions = {}) => {
+  if (!session) {
     throw new Error(['In order to use authentication, you have to install',
-      'cookie-parser and express-session packages'].join(' '))
+      ' express-session package'].join(' '))
   }
   const router = predefinedRouter || express.Router()
-  router.use(cookieParser())
   router.use(session({
+    ...sessionOptions,
     secret: auth.cookiePassword,
     name: auth.cookieName || 'adminbro',
   }))
