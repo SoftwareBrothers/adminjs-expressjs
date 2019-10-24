@@ -9,7 +9,7 @@
  * ``````sh
  * npm install admin-bro-expressjs
  * ```
- * 
+ *
  * ## Usage
  *
  * ```
@@ -24,7 +24,7 @@
  *
  * If you want to use a router you have already created - not a problem. Just pass it
  * as a `predefinedRouter` parameter.
- * 
+ *
  * You may want to use this option when you want to include
  * some custom auth middleware for you AdminBro routes.
  *
@@ -51,6 +51,10 @@
  *
  * To protect the routes with a session authentication, you can use predefined
  * {@link module:admin-bro-expressjs.buildAuthenticatedRouter} method.
+ *
+ * Note! To use authentication in production environment, there is need to configure
+ * express-session for production build. It can be achieved by passing options by
+ * `sessionOptions` parameter. Read more in [express/session Github page](https://github.com/expressjs/session)
  *
  * ## Adding custom authentication
  *
