@@ -15,23 +15,30 @@ try {
 }
 
 const _setupBodyParser = (router, bodyParserOptions = {}) => {
-  router.use(bodyParser.json(bodyParserOptions.json));
+  router.use(bodyParser.json(bodyParserOptions.json))
   router.use(bodyParser.urlencoded({
-      ...bodyParserOptions.urlencoded,
-     extended: true,
-    }))
+    ...bodyParserOptions.urlencoded,
+    extended: true,
+  }))
 }
 
 /**
  * Builds the Express Router that handles all the pages and assets
  *
- * @param  {AdminBro} admin                                                       instance of AdminBro
- * @param  {express.Router} [predefinedRouter]                                    Express.js router
- * @param  {object} options                                                       options passed to router setup
- * @param  {object} options.bodyParserOptions                                     options forwarded to body parser
- * @param  {bodyParser.OptionsJson} [options.bodyParserOptions.json]              options for body-parser json
- * @param  {bodyParser.OptionsUrlencoded} [options.bodyParserOptions.urlencoded]  options for body-parser urlencoded
- * @return {express.Router}                                                       Express.js router
+ * @param  {AdminBro} admin
+ * instance of AdminBro
+ * @param  {express.Router} [predefinedRouter]
+ * Express.js router
+ * @param  {object} options
+ * options passed to router setup
+ * @param  {object} options.bodyParserOptions
+ * options forwarded to body parser
+ * @param  {bodyParser.OptionsJson} [options.bodyParserOptions.json]
+ * options for body-parser json
+ * @param  {bodyParser.OptionsUrlencoded} [options.bodyParserOptions.urlencoded]
+ * options for body-parser urlencoded
+ * @return {express.Router}
+ * Express.js router
  * @function
  * @static
  * @memberof module:admin-bro-expressjs
@@ -101,21 +108,33 @@ const buildRouter = (admin, predefinedRouter, options = {}) => {
  * Using the router requires you to install `express-session` as a
  * dependency.
  *
- * @param  {AdminBro} admin                                                       instance of AdminBro
- * @param  {Object} auth                                                          authentication options
- * @param  {Function} auth.authenticate                                           function takes 2 arguments: email
- *                                                                                and password. Returns authenticated
- *                                                                                user or null, in case of a wrong email
- *                                                                                and/or password
- * @param  {String} auth.cookiePassword                                           secret used to encrypt cookies
- * @param  {String} auth.cookieName=adminbro                                      cookie name
- * @param  {express.Router} [predefinedRouter]                                    Express.js router
- * @param  {object} options                                                       options that are passed to router setup
- * @param  {object} options.bodyParserOptions                                     options that are passed to body parser
- * @param  {bodyParser.OptionsJson} [options.bodyParserOptions.json]              options for body-parser json
- * @param  {bodyParser.OptionsUrlencoded} [options.bodyParserOptions.urlencoded]  options for body-parser urlencoded
- * @param  {session.options} [options.sessionOptions]                             Options that are passed to express-session
- * @return {express.Router}                                                       Express.js router
+ * @param  {AdminBro} admin
+ * instance of AdminBro
+ * @param  {Object} auth
+ * authentication options
+ * @param  {Function} auth.authenticate
+ * function takes 2 arguments: email
+ * and password. Returns authenticated
+ * user or null, in case of a wrong email
+ * and/or password
+ * @param  {String} auth.cookiePassword
+ * secret used to encrypt cookies
+ * @param  {String} auth.cookieName=adminbro
+ * cookie name
+ * @param  {express.Router} [predefinedRouter]
+ * Express.js router
+ * @param  {object} options
+ * options that are passed to router setup
+ * @param  {object} options.bodyParserOptions
+ * options that are passed to body parser
+ * @param  {bodyParser.OptionsJson} [options.bodyParserOptions.json]
+ * options for body-parser json
+ * @param  {bodyParser.OptionsUrlencoded} [options.bodyParserOptions.urlencoded]
+ * options for body-parser urlencoded
+ * @param  {session.options} [options.sessionOptions]
+ * Options that are passed to express-session
+ * @return {express.Router}
+ * Express.js router
  * @static
  * @memberof module:admin-bro-expressjs
  * @example
