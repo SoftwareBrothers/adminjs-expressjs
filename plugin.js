@@ -14,17 +14,29 @@ try {
   console.info('express-session was not required')
 }
 
+const _setupBodyParser = (router, bodyParserOptions = {}) => {
+  router.use(bodyParser.json(bodyParserOptions.json));
+  router.use(bodyParser.urlencoded({
+      ...bodyParserOptions.urlencoded,
+     extended: true,
+    }))
+}
+
 /**
  * Builds the Express Router that handles all the pages and assets
  *
- * @param  {AdminBro} admin                       instance of AdminBro
- * @param  {express.Router} [predefinedRouter]    Express.js router
- * @return {express.Router}                       Express.js router
+ * @param  {AdminBro} admin                                                       instance of AdminBro
+ * @param  {express.Router} [predefinedRouter]                                    Express.js router
+ * @param  {object} options                                                       options passed to router setup
+ * @param  {object} options.bodyParserOptions                                     options forwarded to body parser
+ * @param  {bodyParser.OptionsJson} [options.bodyParserOptions.json]              options for body-parser json
+ * @param  {bodyParser.OptionsUrlencoded} [options.bodyParserOptions.urlencoded]  options for body-parser urlencoded
+ * @return {express.Router}                                                       Express.js router
  * @function
  * @static
  * @memberof module:admin-bro-expressjs
 */
-const buildRouter = (admin, predefinedRouter) => {
+const buildRouter = (admin, predefinedRouter, options = {}) => {
   if (!admin || admin.constructor.name !== 'AdminBro') {
     const e = new Error('you have to pass an instance of AdminBro to the buildRouter() function')
     e.name = 'WrongArgumentError'
@@ -38,8 +50,7 @@ const buildRouter = (admin, predefinedRouter) => {
   const { routes, assets } = AdminBro.Router
   const router = predefinedRouter || express.Router()
 
-  router.use(bodyParser.json())
-  router.use(bodyParser.urlencoded({ extended: true }))
+  _setupBodyParser(options.bodyParserOptions)
 
   routes.forEach((route) => {
     // we have to change routes defined in AdminBro from {recordId} to :recordId
@@ -90,17 +101,21 @@ const buildRouter = (admin, predefinedRouter) => {
  * Using the router requires you to install `express-session` as a
  * dependency.
  *
- * @param  {AdminBro} admin                    instance of AdminBro
- * @param  {Object} auth                          authentication options
- * @param  {Function} auth.authenticate           function takes 2 arguments: email
- *                                                and password. Returns authenticated
- *                                                user or null, in case of a wrong email
- *                                                and/or password
- * @param  {String} auth.cookiePassword           secret used to encrypt cookies
- * @param  {String} auth.cookieName=adminbro      cookie name
- * @param  {express.Router} [predefinedRouter]    Express.js router
- * @param  {session.options} [sessionOptions]     Options that are passed to express-session
- * @return {express.Router}                       Express.js router
+ * @param  {AdminBro} admin                                                       instance of AdminBro
+ * @param  {Object} auth                                                          authentication options
+ * @param  {Function} auth.authenticate                                           function takes 2 arguments: email
+ *                                                                                and password. Returns authenticated
+ *                                                                                user or null, in case of a wrong email
+ *                                                                                and/or password
+ * @param  {String} auth.cookiePassword                                           secret used to encrypt cookies
+ * @param  {String} auth.cookieName=adminbro                                      cookie name
+ * @param  {express.Router} [predefinedRouter]                                    Express.js router
+ * @param  {object} options                                                       options that are passed to router setup
+ * @param  {object} options.bodyParserOptions                                     options that are passed to body parser
+ * @param  {bodyParser.OptionsJson} [options.bodyParserOptions.json]              options for body-parser json
+ * @param  {bodyParser.OptionsUrlencoded} [options.bodyParserOptions.urlencoded]  options for body-parser urlencoded
+ * @param  {session.options} [options.sessionOptions]                             Options that are passed to express-session
+ * @return {express.Router}                                                       Express.js router
  * @static
  * @memberof module:admin-bro-expressjs
  * @example
@@ -120,19 +135,19 @@ const buildRouter = (admin, predefinedRouter) => {
  *   cookiePassword: 'somepassword',
  * }, [router])
 */
-const buildAuthenticatedRouter = (admin, auth, predefinedRouter, sessionOptions = {}) => {
+const buildAuthenticatedRouter = (admin, auth, predefinedRouter, options = {}) => {
   if (!session) {
     throw new Error(['In order to use authentication, you have to install',
       ' express-session package'].join(' '))
   }
   const router = predefinedRouter || express.Router()
   router.use(session({
-    ...sessionOptions,
+    ...options.sessionOptions,
     secret: auth.cookiePassword,
     name: auth.cookieName || 'adminbro',
   }))
-  router.use(bodyParser.json())
-  router.use(bodyParser.urlencoded({ extended: true }))
+
+  _setupBodyParser(options.bodyParserOptions)
 
   const { rootPath } = admin.options
   let { loginPath, logoutPath } = admin.options
