@@ -57,7 +57,7 @@ const buildRouter = (admin, predefinedRouter, options = {}) => {
   const { routes, assets } = AdminBro.Router
   const router = predefinedRouter || express.Router()
 
-  _setupBodyParser(options.bodyParserOptions)
+  _setupBodyParser(router, options.bodyParserOptions)
 
   routes.forEach((route) => {
     // we have to change routes defined in AdminBro from {recordId} to :recordId
@@ -166,7 +166,7 @@ const buildAuthenticatedRouter = (admin, auth, predefinedRouter, options = {}) =
     name: auth.cookieName || 'adminbro',
   }))
 
-  _setupBodyParser(options.bodyParserOptions)
+  _setupBodyParser(router, options.bodyParserOptions)
 
   const { rootPath } = admin.options
   let { loginPath, logoutPath } = admin.options
