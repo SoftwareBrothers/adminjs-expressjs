@@ -2,7 +2,7 @@ const express = require('express')
 const AdminBro = require('admin-bro')
 
 const path = require('path')
-const bodyParser = require('body-parser')
+const formidableMiddleware = require('express-formidable')
 
 const pkg = require('./package.json')
 
@@ -38,8 +38,7 @@ const buildRouter = (admin, predefinedRouter) => {
   const { routes, assets } = AdminBro.Router
   const router = predefinedRouter || express.Router()
 
-  router.use(bodyParser.json())
-  router.use(bodyParser.urlencoded({ extended: true }))
+  router.use(formidableMiddleware())
 
   routes.forEach((route) => {
     // we have to change routes defined in AdminBro from {recordId} to :recordId
@@ -50,7 +49,10 @@ const buildRouter = (admin, predefinedRouter) => {
         const controller = new route.Controller({ admin }, req.session && req.session.adminUser)
         const { params, query } = req
         const method = req.method.toLowerCase()
-        const payload = req.body
+        const payload = {
+          ...(req.fields || {}),
+          ...(req.files || {}),
+        }
         const html = await controller[route.action]({
           ...req, params, query, payload, method,
         }, res)
@@ -85,6 +87,16 @@ const buildRouter = (admin, predefinedRouter) => {
 }
 
 /**
+ * @typedef {Function} Authenticate
+ * @memberof module:admin-bro-expressjs
+ * @description
+ * function taking 2 arguments email and password
+ * @param {string} [email]         email given in the form
+ * @param {string} [password]      password given in the form
+ * @return {CurrentAdmin | null}      returns current admin or null
+ */
+
+/**
  * Builds the Express Router which is protected by a session auth
  *
  * Using the router requires you to install `express-session` as a
@@ -92,14 +104,11 @@ const buildRouter = (admin, predefinedRouter) => {
  *
  * @param  {AdminBro} admin                    instance of AdminBro
  * @param  {Object} auth                          authentication options
- * @param  {Function} auth.authenticate           function takes 2 arguments: email
- *                                                and password. Returns authenticated
- *                                                user or null, in case of a wrong email
- *                                                and/or password
+ * @param  {module:admin-bro-expressjs.Authenticate} auth.authenticate       authenticate function
  * @param  {String} auth.cookiePassword           secret used to encrypt cookies
  * @param  {String} auth.cookieName=adminbro      cookie name
  * @param  {express.Router} [predefinedRouter]    Express.js router
- * @param  {session.options} [sessionOptions]     Options that are passed to express-session
+ * @param  {session.options} [sessionOptions]     Options that are passed to [express-session](https://github.com/expressjs/session)
  * @return {express.Router}                       Express.js router
  * @static
  * @memberof module:admin-bro-expressjs
@@ -131,8 +140,7 @@ const buildAuthenticatedRouter = (admin, auth, predefinedRouter, sessionOptions 
     secret: auth.cookiePassword,
     name: auth.cookieName || 'adminbro',
   }))
-  router.use(bodyParser.json())
-  router.use(bodyParser.urlencoded({ extended: true }))
+  router.use(formidableMiddleware())
 
   const { rootPath } = admin.options
   let { loginPath, logoutPath } = admin.options
