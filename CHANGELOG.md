@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Started from version 0.3.0
 
+## 1.4.0 - unreleased
+
+### Changed
+
+* change body-parser to formidable
+
 ## 1.3.0 - 2019-11-04
 
 ### Added
