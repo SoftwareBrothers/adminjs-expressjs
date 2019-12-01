@@ -39,6 +39,7 @@
     "eslint-plugin-import": "^2.14.0",
     "express": "^4.16.4",
     "express-session": ">=1.15.6",
+    "express-formidable": "^1.2.0",
     "mocha": "^5.2.0",
     "mongoose": "^5.3.16",
     "nodemon": "^1.18.8",
