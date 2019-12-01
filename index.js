@@ -6,7 +6,7 @@
  *
  * ## Installation
  *
- * ``````sh
+ * ```sh
  * npm install admin-bro-expressjs
  * ```
  *
@@ -20,7 +20,7 @@
  * to a given url in the API. Each method takes a preconfigured instance of {@link AdminBro}.
  *
  * - {@link module:admin-bro-expressjs.buildRouter AdminBroExpress.buildRouter(admin, [predefinedRouter])}
- * - {@link module:admin-bro-expressjs.buildAuthenticatedRouter AdminBroExpress.buildAuthenticatedRouter(admin, auth, [predefinedRouter])}
+ * - {@link module:admin-bro-expressjs.buildAuthenticatedRouter AdminBroExpress.buildAuthenticatedRouter(admin, auth, [predefinedRouter], sessionOptions)}
  *
  * If you want to use a router you have already created - not a problem. Just pass it
  * as a `predefinedRouter` parameter.
