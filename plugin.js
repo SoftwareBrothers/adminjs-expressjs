@@ -153,7 +153,7 @@ const buildAuthenticatedRouter = (admin, auth, predefinedRouter, sessionOptions 
   })
 
   router.post(loginPath, async (req, res) => {
-    const { email, password } = req.body
+    const { email, password } = req.fields
     const adminUser = await auth.authenticate(email, password)
     if (adminUser) {
       req.session.adminUser = adminUser
