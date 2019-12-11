@@ -65,7 +65,7 @@
  * let router = express.Router()
  * router.use((req, res, next) => {
  *   if (req.session && req.session.admin) {
- *     req.adminUser = req.session.admin
+ *     req.session.adminUser = req.session.admin
  *     next()
  *   } else {
  *     res.redirect(adminBro.options.loginPath)
@@ -73,6 +73,9 @@
  * })
  * router = AdminBroExpress.buildRouter(adminBro, router)
  * ```
+ *
+ * Where `req.session.admin` is {@link AdminBro#CurrentAdmin},
+ * meaning that it should have at least an email property.
  */
 
 const Plugin = require('./plugin')
