@@ -1,6 +1,6 @@
 {
   "name": "admin-bro-expressjs",
-  "version": "0.4.0-beta.2",
+  "version": "0.4.0",
   "description": "This is an official AdminBro plugin which integrates it to expressjs framework",
   "main": "index.js",
   "scripts": {
@@ -25,13 +25,13 @@
   },
   "homepage": "https://github.com/SoftwareBrothers/admin-bro-expressjs#readme",
   "peerDependencies": {
-    "admin-bro": ">=0.9.0",
+    "admin-bro": ">=1.5.0",
     "express": ">=4.16.4",
     "express-session": ">=1.15.6",
     "express-formidable": "^1.2.0"
   },
   "devDependencies": {
-    "admin-bro": ">=0.9.0",
+    "admin-bro": ">=1.5.0",
     "admin-bro-mongoose": "^0.1.4",
     "chai": "^4.2.0",
     "eslint": "^5.10.0",
