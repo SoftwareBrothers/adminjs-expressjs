@@ -10,6 +10,9 @@
  * npm install admin-bro-expressjs
  * ```
  *
+ * It has 2 peerDependencies: `express-formidable` and `express`,
+ * so you have to install them as well.
+ *
  * ## Usage
  *
  * ```
