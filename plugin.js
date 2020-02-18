@@ -148,7 +148,7 @@ const buildAuthenticatedRouter = (admin, auth, predefinedRouter, sessionOptions 
   logoutPath = logoutPath.replace(rootPath, '')
 
   router.get(loginPath, async (req, res) => {
-    const login = await AdminBro.renderLogin({ action: admin.options.loginPath })
+    const login = await admin.renderLogin({ action: admin.options.loginPath })
     res.send(login)
   })
 
@@ -159,9 +159,9 @@ const buildAuthenticatedRouter = (admin, auth, predefinedRouter, sessionOptions 
       req.session.adminUser = adminUser
       res.redirect(rootPath)
     } else {
-      const login = await AdminBro.renderLogin({
+      const login = await admin.renderLogin({
         action: admin.options.loginPath,
-        errorMessage: 'Invalid credentials!',
+        errorMessage: 'invalidCredentials',
       })
       res.send(login)
     }

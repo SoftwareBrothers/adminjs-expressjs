@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Started from version 0.3.0
 
+## 2.0.0 - not released
+
+### Added
+
+* support for admin v2
+
 ## 1.4.0 - 2019-12-17
 
 ### Changed
