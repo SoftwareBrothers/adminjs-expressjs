@@ -63,8 +63,15 @@ const buildRouter = (admin, predefinedRouter) => {
           res.send(html)
         }
       } catch (e) {
-        // eslint-disable-next-line no-console
-        console.log(e)
+        if (e.statusCode >= 400 && e.statusCode < 500) {
+          res.status(e.statusCode)
+          res.send({ error: true, status: e.statusCode, notice: e.message })
+        } else {
+          // eslint-disable-next-line no-console
+          console.error(e)
+          res.status(500)
+          res.send({ error: true, status: 500, notice: 'Internal Server Error' })
+        }
       }
     }
 
