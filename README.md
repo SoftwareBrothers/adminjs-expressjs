@@ -6,7 +6,7 @@ This is an official [AdminBro](https://github.com/SoftwareBrothers/admin-bro) pl
 
 AdminBro is an automatic admin interface which can be plugged into your application. You, as a developer, provide database models (like posts, comments, stores, products or whatever else your application uses), and AdminBro generates UI which allows you (or other trusted users) to manage content.
 
-Check out the example application with mongo and postgres models here: https://admin-bro-example-app.herokuapp.com/admin
+Check out the example application with mongo and postgres models here: https://admin-bro-example-app-staging.herokuapp.com/admin
 
 Or visit [AdminBro](https://github.com/SoftwareBrothers/admin-bro) github page.
 
