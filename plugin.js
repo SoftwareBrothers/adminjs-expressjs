@@ -43,8 +43,10 @@ const buildRouter = (admin, predefinedRouter) => {
   routes.forEach((route) => {
     // we have to change routes defined in AdminBro from {recordId} to :recordId
     const expressPath = route.path.replace(/{/g, ':').replace(/}/g, '')
-
-    const handler = async (req, res) => {
+    /**
+     * @type {express.Handler}
+     */
+    const handler = async (req, res, next) => {
       try {
         const controller = new route.Controller({ admin }, req.session && req.session.adminUser)
         const { params, query } = req
@@ -63,8 +65,7 @@ const buildRouter = (admin, predefinedRouter) => {
           res.send(html)
         }
       } catch (e) {
-        // eslint-disable-next-line no-console
-        console.log(e)
+        next(e)
       }
     }
 
@@ -100,7 +101,9 @@ const buildRouter = (admin, predefinedRouter) => {
  * Builds the Express Router which is protected by a session auth
  *
  * Using the router requires you to install `express-session` as a
- * dependency.
+ * dependency. Normally express-session holds session in memory, which is
+ * not optimized for production usage and, in development, it causes
+ * logging out after every page refresh (if you use nodemon).
  *
  * @param  {AdminBro} admin                    instance of AdminBro
  * @param  {Object} auth                          authentication options

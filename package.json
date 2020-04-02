@@ -27,10 +27,12 @@
   "peerDependencies": {
     "admin-bro": ">=2.0.0",
     "express": ">=4.16.4",
-    "express-session": ">=1.15.6",
-    "express-formidable": "^1.2.0"
+    "express-formidable": "^1.2.0",
+    "express-session": ">=1.15.6"
   },
   "devDependencies": {
+    "@types/express": "^4.17.4",
+    "@types/mocha": "^7.0.2",
     "admin-bro": ">=2.0.0",
     "admin-bro-mongoose": "^0.1.4",
     "chai": "^4.2.0",
@@ -38,8 +40,8 @@
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
     "express": "^4.16.4",
-    "express-session": ">=1.15.6",
     "express-formidable": "^1.2.0",
+    "express-session": ">=1.15.6",
     "mocha": "^5.2.0",
     "mongoose": "^5.3.16",
     "nodemon": "^1.18.8",
