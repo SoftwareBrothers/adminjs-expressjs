@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Started from version 0.3.0
 
+## 2.0.1 - 02.04.2020
+
+### Changed
+
+* move to the next middleware instead of hanging when errors are thrown
+
 ## 2.0.0 - 04.03.2020
 
 ### Added
