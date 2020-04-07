@@ -1,6 +1,8 @@
 const express = require('express')
 const AdminBro = require('admin-bro')
 
+/** @typedef {import('admin-bro').default} AdminBro */
+
 const path = require('path')
 const formidableMiddleware = require('express-formidable')
 
@@ -19,12 +21,13 @@ try {
  *
  * @param  {AdminBro} admin                       instance of AdminBro
  * @param  {express.Router} [predefinedRouter]    Express.js router
+ * @param  {ExpressFormidableOptions} [formidableOptions]    Express.js router
  * @return {express.Router}                       Express.js router
  * @function
  * @static
  * @memberof module:admin-bro-expressjs
 */
-const buildRouter = (admin, predefinedRouter) => {
+const buildRouter = (admin, predefinedRouter, formidableOptions) => {
   if (!admin || admin.constructor.name !== 'AdminBro') {
     const e = new Error('you have to pass an instance of AdminBro to the buildRouter() function')
     e.name = 'WrongArgumentError'
@@ -38,7 +41,7 @@ const buildRouter = (admin, predefinedRouter) => {
   const { routes, assets } = AdminBro.Router
   const router = predefinedRouter || express.Router()
 
-  router.use(formidableMiddleware())
+  router.use(formidableMiddleware(formidableOptions))
 
   routes.forEach((route) => {
     // we have to change routes defined in AdminBro from {recordId} to :recordId
@@ -111,7 +114,8 @@ const buildRouter = (admin, predefinedRouter) => {
  * @param  {String} auth.cookiePassword           secret used to encrypt cookies
  * @param  {String} auth.cookieName=adminbro      cookie name
  * @param  {express.Router} [predefinedRouter]    Express.js router
- * @param  {session.options} [sessionOptions]     Options that are passed to [express-session](https://github.com/expressjs/session)
+ * @param  {SessionOptions} [sessionOptions]     Options that are passed to [express-session](https://github.com/expressjs/session)
+ * @param  {ExpressFormidableOptions} [formidableOptions]     Options that are passed to [express-session](https://github.com/expressjs/session)
  * @return {express.Router}                       Express.js router
  * @static
  * @memberof module:admin-bro-expressjs
@@ -132,7 +136,13 @@ const buildRouter = (admin, predefinedRouter) => {
  *   cookiePassword: 'somepassword',
  * }, [router])
 */
-const buildAuthenticatedRouter = (admin, auth, predefinedRouter, sessionOptions = {}) => {
+const buildAuthenticatedRouter = (
+  admin,
+  auth,
+  predefinedRouter,
+  sessionOptions = {},
+  formidableOptions = {},
+) => {
   if (!session) {
     throw new Error(['In order to use authentication, you have to install',
       ' express-session package'].join(' '))
@@ -143,7 +153,7 @@ const buildAuthenticatedRouter = (admin, auth, predefinedRouter, sessionOptions 
     secret: auth.cookiePassword,
     name: auth.cookieName || 'adminbro',
   }))
-  router.use(formidableMiddleware())
+  router.use(formidableMiddleware(formidableOptions))
 
   const { rootPath } = admin.options
   let { loginPath, logoutPath } = admin.options
@@ -151,7 +161,10 @@ const buildAuthenticatedRouter = (admin, auth, predefinedRouter, sessionOptions 
   logoutPath = logoutPath.replace(rootPath, '')
 
   router.get(loginPath, async (req, res) => {
-    const login = await admin.renderLogin({ action: admin.options.loginPath })
+    const login = await admin.renderLogin({
+      action: admin.options.loginPath,
+      errorMessage: null,
+    })
     res.send(login)
   })
 
@@ -181,11 +194,12 @@ const buildAuthenticatedRouter = (admin, auth, predefinedRouter, sessionOptions 
   })
 
   router.get(logoutPath, async (req, res) => {
-    req.session.destroy()
-    res.redirect(admin.options.loginPath)
+    req.session.destroy(() => {
+      res.redirect(admin.options.loginPath)
+    })
   })
 
-  return buildRouter(admin, router)
+  return buildRouter(admin, router, formidableOptions)
 }
 
 module.exports = {
