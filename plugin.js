@@ -160,7 +160,10 @@ const buildAuthenticatedRouter = (admin, auth, predefinedRouter, sessionOptions 
     const adminUser = await auth.authenticate(email, password)
     if (adminUser) {
       req.session.adminUser = adminUser
-      res.redirect(rootPath)
+      req.session.save((err) => {
+        console.error(err)
+        res.redirect(rootPath)
+      })
     } else {
       const login = await admin.renderLogin({
         action: admin.options.loginPath,
