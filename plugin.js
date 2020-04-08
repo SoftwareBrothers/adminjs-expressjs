@@ -168,12 +168,17 @@ const buildAuthenticatedRouter = (
     res.send(login)
   })
 
-  router.post(loginPath, async (req, res) => {
+  router.post(loginPath, async (req, res, next) => {
     const { email, password } = req.fields
     const adminUser = await auth.authenticate(email, password)
     if (adminUser) {
       req.session.adminUser = adminUser
-      res.redirect(rootPath)
+      req.session.save((err) => {
+        if (err) {
+          next(err)
+        }
+        res.redirect(rootPath)
+      })
     } else {
       const login = await admin.renderLogin({
         action: admin.options.loginPath,
