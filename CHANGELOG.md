@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Started from version 0.3.0
 
+## 2.0.2 - 08.04.2020
+
+### Added
+
+* add formidable options
+
+### Fixed
+
+* login handler waits until session is stored: fixes automatic redirects to login page when user has been logged in
+
 ## 2.0.1 - 02.04.2020
 
 ### Changed
