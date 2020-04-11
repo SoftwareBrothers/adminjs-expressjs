@@ -17,6 +17,10 @@ try {
 }
 
 /**
+ * @typedef {import('admin-bro').default} AdminBro
+ */
+
+/**
  * Builds the Express Router that handles all the pages and assets
  *
  * @param  {AdminBro} admin                       instance of AdminBro
