@@ -151,11 +151,34 @@ const buildAuthenticatedRouter = (
     ].join(' '))
   }
   const router = predefinedRouter || express.Router()
+
+  router.use((req, res, next) => {
+    if (req._body) {
+      next(new Error([
+        'You probably used old `body-parser` middleware, which is not compatible',
+        'with admin-bro-expressjs. In order to make it work you will have to',
+        '1. move body-parser invocation after the admin bro setup like this:',
+
+        'const adminBro = new AdminBro()',
+        'const router = new buildRouter(adminBro)',
+        'app.use(adminBro.options.rootPath, router)',
+
+        '// body parser goes after the AdminBro router',
+        'app.use(bodyParser())',
+
+        '2. Upgrade body-parser to the latest version and use it like this:',
+        'app.use(bodyParser.json())',
+      ].join('\n')))
+    }
+    next()
+  })
+
   router.use(session({
     ...sessionOptions,
     secret: auth.cookiePassword,
     name: auth.cookieName || 'adminbro',
   }))
+
   router.use(formidableMiddleware(formidableOptions))
 
   const { rootPath } = admin.options
