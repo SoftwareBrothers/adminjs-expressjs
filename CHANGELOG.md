@@ -8,6 +8,14 @@ Started from version 0.3.0
 
 ## Version v2.0.5 - 29.04.2020
 
+### Changed
+
+* switch travis to github actions
+
+### Added
+
+* error message when body-parser has been used
+
 ## 2.0.4 - 12.04.2020
 
 ### Fixed
