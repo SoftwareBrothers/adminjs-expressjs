@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /**
  * @module admin-bro-expressjs
  *
@@ -20,7 +21,7 @@
  * ```
  *
  * It exposes 2 methods that create an Express Router, which can be attached
- * to a given url in the API. Each method takes a preconfigured instance of {@link AdminBro}.
+ * to a given url in the API. Each method takes a pre-configured instance of {@link AdminBro}.
  *
  * - {@link module:admin-bro-expressjs.buildRouter AdminBroExpress.buildRouter(admin, [predefinedRouter])}
  * - {@link module:admin-bro-expressjs.buildAuthenticatedRouter AdminBroExpress.buildAuthenticatedRouter(admin, auth, [predefinedRouter], sessionOptions)}
