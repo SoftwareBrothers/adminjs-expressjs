@@ -1,8 +1,6 @@
 const express = require('express')
 const AdminBro = require('admin-bro')
 
-/** @typedef {import('admin-bro').default} AdminBro */
-
 const path = require('path')
 const formidableMiddleware = require('express-formidable')
 
@@ -17,10 +15,6 @@ try {
 }
 
 /**
- * @typedef {import('admin-bro').default} AdminBro
- */
-
-/**
  * Builds the Express Router that handles all the pages and assets
  *
  * @param  {AdminBro} admin                       instance of AdminBro
@@ -30,7 +24,7 @@ try {
  * @function
  * @static
  * @memberof module:admin-bro-expressjs
-*/
+ */
 const buildRouter = (admin, predefinedRouter, formidableOptions) => {
   if (!admin || admin.constructor.name !== 'AdminBro') {
     const e = new Error('you have to pass an instance of AdminBro to the buildRouter() function')
@@ -63,7 +57,11 @@ const buildRouter = (admin, predefinedRouter, formidableOptions) => {
           ...(req.files || {}),
         }
         const html = await controller[route.action]({
-          ...req, params, query, payload, method,
+          ...req,
+          params,
+          query,
+          payload,
+          method,
         }, res)
         if (route.contentType) {
           res.set({ 'Content-Type': route.contentType })
@@ -139,7 +137,7 @@ const buildRouter = (admin, predefinedRouter, formidableOptions) => {
  *   cookieName: 'adminbro',
  *   cookiePassword: 'somepassword',
  * }, [router])
-*/
+ */
 const buildAuthenticatedRouter = (
   admin,
   auth,
@@ -149,7 +147,8 @@ const buildAuthenticatedRouter = (
 ) => {
   if (!session) {
     throw new Error(['In order to use authentication, you have to install',
-      ' express-session package'].join(' '))
+      ' express-session package',
+    ].join(' '))
   }
   const router = predefinedRouter || express.Router()
   router.use(session({
@@ -218,12 +217,12 @@ module.exports = {
    * Version of the plugin
    * @static
    * @memberof module:admin-bro-expressjs
-  */
+   */
   version: pkg.version,
   /**
    * Plugin name
    * @static
    * @memberof module:admin-bro-expressjs
-  */
+   */
   name: 'AdminBroExpressjs',
 }
