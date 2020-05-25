@@ -203,7 +203,12 @@ const buildAuthenticatedRouter = (
         if (err) {
           next(err)
         }
-        res.redirect(rootPath)
+        if(req.session.redirectTo) {
+          res.redirect(req.session.redirectTo)
+        }
+        else {
+          res.redirect(rootPath)
+        }
       })
     } else {
       const login = await admin.renderLogin({
@@ -220,7 +225,13 @@ const buildAuthenticatedRouter = (
     } else if (req.session.adminUser) {
       next()
     } else {
-      res.redirect(admin.options.loginPath)
+      req.session.redirectTo = req.originalUrl
+      req.session.save(err => {
+        if (err) {
+          next(err)
+        }
+        res.redirect(admin.options.loginPath)
+      })
     }
   })
 
