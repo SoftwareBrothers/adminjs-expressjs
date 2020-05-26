@@ -203,10 +203,9 @@ const buildAuthenticatedRouter = (
         if (err) {
           next(err)
         }
-        if(req.session.redirectTo) {
+        if (req.session.redirectTo) {
           res.redirect(req.session.redirectTo)
-        }
-        else {
+        } else {
           res.redirect(rootPath)
         }
       })
@@ -226,7 +225,7 @@ const buildAuthenticatedRouter = (
       next()
     } else {
       req.session.redirectTo = req.originalUrl
-      req.session.save(err => {
+      req.session.save((err) => {
         if (err) {
           next(err)
         }
