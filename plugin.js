@@ -135,7 +135,7 @@ const buildRouter = (admin, predefinedRouter, formidableOptions) => {
  *     return null
  *   },
  *   cookieName: 'adminbro',
- *   cookiePassword: 'somepassword',
+ *   cookiePassword: 'somePassword',
  * }, [router])
  */
 const buildAuthenticatedRouter = (

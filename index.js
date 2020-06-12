@@ -12,7 +12,11 @@
  * ```
  *
  * It has 2 peerDependencies: `express-formidable` and `express`,
- * so you have to install them as well.
+ * so you have to install them as well (if they are not installed already)
+ *
+ * ```
+ * npm install express express-formidable
+ * ```
  *
  * ## Usage
  *
