@@ -224,7 +224,9 @@ const buildAuthenticatedRouter = (
     } else if (req.session.adminUser) {
       next()
     } else {
-      req.session.redirectTo = req.originalUrl
+      // If the redirection is caused by API call to some action just redirect to resource
+      const [redirectTo] = req.originalUrl.split('/actions')
+      req.session.redirectTo = redirectTo
       req.session.save((err) => {
         if (err) {
           next(err)
