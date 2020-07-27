@@ -1,5 +1,5 @@
 const express = require('express')
-const AdminBro = require('admin-bro')
+const AdminBro = require('@admin-bro/core')
 
 const path = require('path')
 const formidableMiddleware = require('express-formidable')

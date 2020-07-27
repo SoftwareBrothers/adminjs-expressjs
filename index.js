@@ -8,7 +8,7 @@
  * ## Installation
  *
  * ```sh
- * npm install admin-bro-expressjs
+ * npm install @admin-bro/express
  * ```
  *
  * It has 2 peerDependencies: `express-formidable` and `express`,
@@ -21,7 +21,7 @@
  * ## Usage
  *
  * ```
- * const AdminBroExpress = require('admin-bro-expressjs')
+ * const AdminBroExpress = require('@admin-bro/express')
  * ```
  *
  * It exposes 2 methods that create an Express Router, which can be attached
@@ -39,8 +39,8 @@
  * ## Example without an authentication
  *
  * ```
- * const AdminBro = require('admin-bro')
- * const AdminBroExpress = require('admin-bro-expressjs')
+ * const AdminBro = require('@admin-bro/core')
+ * const AdminBroExpress = require('@admin-bro/express')
  *
  * const express = require('express')
  * const app = express()

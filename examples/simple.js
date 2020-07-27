@@ -1,8 +1,8 @@
-const AdminBro = require('admin-bro')
+const AdminBro = require('@admin-bro/core')
 const express = require('express')
 const mongoose = require('mongoose')
 
-AdminBro.registerAdapter(require('admin-bro-mongoose'))
+AdminBro.registerAdapter(require('@admin-bro/mongoose'))
 
 const AdminBroExpress = require('../index')
 
