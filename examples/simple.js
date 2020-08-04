@@ -1,4 +1,4 @@
-const AdminBro = require('@admin-bro/core')
+const AdminBro = require('admin-bro')
 const express = require('express')
 const mongoose = require('mongoose')
 

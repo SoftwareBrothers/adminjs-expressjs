@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 /**
- * @module admin-bro-expressjs
+ * @module @admin-bro/express
  *
  * @description
  * Plugin that allows you to add AdminBro to Express.js applications.
@@ -27,8 +27,8 @@
  * It exposes 2 methods that create an Express Router, which can be attached
  * to a given url in the API. Each method takes a pre-configured instance of {@link AdminBro}.
  *
- * - {@link module:admin-bro-expressjs.buildRouter AdminBroExpress.buildRouter(admin, [predefinedRouter])}
- * - {@link module:admin-bro-expressjs.buildAuthenticatedRouter AdminBroExpress.buildAuthenticatedRouter(admin, auth, [predefinedRouter], sessionOptions)}
+ * - {@link module:@admin-bro/express.buildRouter AdminBroExpress.buildRouter(admin, [predefinedRouter])}
+ * - {@link module:@admin-bro/express.buildAuthenticatedRouter AdminBroExpress.buildAuthenticatedRouter(admin, auth, [predefinedRouter], sessionOptions)}
  *
  * If you want to use a router you have already created - not a problem. Just pass it
  * as a `predefinedRouter` parameter.
@@ -39,7 +39,7 @@
  * ## Example without an authentication
  *
  * ```
- * const AdminBro = require('@admin-bro/core')
+ * const AdminBro = require('admin-bro')
  * const AdminBroExpress = require('@admin-bro/express')
  *
  * const express = require('express')
@@ -58,7 +58,7 @@
  * ## Using build in authentication
  *
  * To protect the routes with a session authentication, you can use predefined
- * {@link module:admin-bro-expressjs.buildAuthenticatedRouter} method.
+ * {@link module:@admin-bro/express.buildAuthenticatedRouter} method.
  *
  * Note! To use authentication in production environment, there is a need to configure
  * express-session for production build. It can be achieved by passing options to

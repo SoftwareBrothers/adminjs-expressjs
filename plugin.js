@@ -1,5 +1,5 @@
 const express = require('express')
-const AdminBro = require('@admin-bro/core')
+const AdminBro = require('admin-bro')
 
 const path = require('path')
 const formidableMiddleware = require('express-formidable')
@@ -23,7 +23,7 @@ try {
  * @return {express.Router}                       Express.js router
  * @function
  * @static
- * @memberof module:admin-bro-expressjs
+ * @memberof module:@admin-bro/express
  */
 const buildRouter = (admin, predefinedRouter, formidableOptions) => {
   if (!admin || admin.constructor.name !== 'AdminBro') {
@@ -94,7 +94,7 @@ const buildRouter = (admin, predefinedRouter, formidableOptions) => {
 
 /**
  * @typedef {Function} Authenticate
- * @memberof module:admin-bro-expressjs
+ * @memberof module:@admin-bro/express
  * @description
  * function taking 2 arguments email and password
  * @param {string} [email]         email given in the form
@@ -112,7 +112,7 @@ const buildRouter = (admin, predefinedRouter, formidableOptions) => {
  *
  * @param  {AdminBro} admin                    instance of AdminBro
  * @param  {Object} auth                          authentication options
- * @param  {module:admin-bro-expressjs.Authenticate} auth.authenticate       authenticate function
+ * @param  {module:@admin-bro/express.Authenticate} auth.authenticate       authenticate function
  * @param  {String} auth.cookiePassword           secret used to encrypt cookies
  * @param  {String} auth.cookieName=adminbro      cookie name
  * @param  {express.Router} [predefinedRouter]    Express.js router
@@ -120,7 +120,7 @@ const buildRouter = (admin, predefinedRouter, formidableOptions) => {
  * @param  {ExpressFormidableOptions} [formidableOptions]     Options that are passed to [express-session](https://github.com/expressjs/session)
  * @return {express.Router}                       Express.js router
  * @static
- * @memberof module:admin-bro-expressjs
+ * @memberof module:@admin-bro/express
  * @example
  * const ADMIN = {
  *   email: 'test@example.com',
@@ -249,13 +249,13 @@ module.exports = {
   /**
    * Version of the plugin
    * @static
-   * @memberof module:admin-bro-expressjs
+   * @memberof module:@admin-bro/express
    */
   version: pkg.version,
   /**
    * Plugin name
    * @static
-   * @memberof module:admin-bro-expressjs
+   * @memberof module:@admin-bro/express
    */
   name: 'AdminBroExpressjs',
 }
