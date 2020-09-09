@@ -183,8 +183,10 @@ const buildAuthenticatedRouter = (
 
   const { rootPath } = admin.options
   let { loginPath, logoutPath } = admin.options
-  loginPath = loginPath.replace(rootPath, '')
-  logoutPath = logoutPath.replace(rootPath, '')
+  if(AdminBro.DEFAULT_PATHS.rootPath == rootPath) {
+    loginPath = loginPath.replace(rootPath, '')
+    logoutPath = logoutPath.replace(rootPath, '')
+  }
 
   router.get(loginPath, async (req, res) => {
     const login = await admin.renderLogin({
