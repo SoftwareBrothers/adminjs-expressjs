@@ -1,8 +1,10 @@
 /* eslint-disable max-len */
 /**
  * @module @admin-bro/express
+ * @subcategory Plugins
+ * @section modules
  *
- * @description
+ * @classdesc
  * Plugin that allows you to add AdminBro to Express.js applications.
  *
  * ## Installation
