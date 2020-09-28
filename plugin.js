@@ -183,8 +183,15 @@ const buildAuthenticatedRouter = (
 
   const { rootPath } = admin.options
   let { loginPath, logoutPath } = admin.options
+  // since we are inside already namespaced router we have to replace login and logout routes that
+  // they don't have rootUrl inside. So changing /admin/login to just /login.
+  // but there is a case where user gives / as a root url and /login becomes `login`. We have to
+  // fix it by adding / in front of the route
   loginPath = loginPath.replace(rootPath, '')
+  if (!loginPath.startsWith('/')) { loginPath = `/${loginPath}` }
+
   logoutPath = logoutPath.replace(rootPath, '')
+  if (!logoutPath.startsWith('/')) { logoutPath = `/${logoutPath}` }
 
   router.get(loginPath, async (req, res) => {
     const login = await admin.renderLogin({
@@ -221,7 +228,11 @@ const buildAuthenticatedRouter = (
   router.use((req, res, next) => {
     if (AdminBro.Router.assets.find(asset => req.originalUrl.match(asset.path))) {
       next()
-    } else if (req.session.adminUser) {
+    } else if (req.session.adminUser
+      // these routes doesn't need authentication
+      || req.originalUrl.startsWith(admin.options.loginPath)
+      || req.originalUrl.startsWith(admin.options.logoutPath)
+    ) {
       next()
     } else {
       // If the redirection is caused by API call to some action just redirect to resource
