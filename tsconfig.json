@@ -1,0 +1,12 @@
+{
+  "include": ["./index.js", "./plugin.js"],
+  "exclude": ["./types"],
+
+  "compilerOptions": {
+    "allowJs": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "esModuleInterop": true,
+    "outDir": "./types"
+  }
+}
