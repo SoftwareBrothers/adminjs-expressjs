@@ -139,11 +139,11 @@ const buildRouter = (admin, predefinedRouter, formidableOptions) => {
  * }, [router])
  */
 const buildAuthenticatedRouter = (
-    admin,
-    auth,
-    predefinedRouter,
-    sessionOptions = {},
-    formidableOptions = {},
+  admin,
+  auth,
+  predefinedRouter,
+  sessionOptions = {},
+  formidableOptions = {},
 ) => {
   if (!session) {
     throw new Error(['In order to use authentication, you have to install',
