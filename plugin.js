@@ -139,11 +139,11 @@ const buildRouter = (admin, predefinedRouter, formidableOptions) => {
  * }, [router])
  */
 const buildAuthenticatedRouter = (
-  admin,
-  auth,
-  predefinedRouter,
-  sessionOptions = {},
-  formidableOptions = {},
+    admin,
+    auth,
+    predefinedRouter,
+    sessionOptions = {},
+    formidableOptions = {},
 ) => {
   if (!session) {
     throw new Error(['In order to use authentication, you have to install',
@@ -211,9 +211,9 @@ const buildAuthenticatedRouter = (
           next(err)
         }
         if (req.session.redirectTo) {
-          res.redirect(req.session.redirectTo)
+          res.redirect(302, req.session.redirectTo)
         } else {
-          res.redirect(rootPath)
+          res.redirect(302, rootPath)
         }
       })
     } else {
