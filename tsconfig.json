@@ -9,8 +9,7 @@
       "declaration": true,
       "allowJs": true,
       "types": ["express-formidable", "jest"],
-      "resolveJsonModule": true,
-      "typeRoots": ["@types", "./nodemodules/@types"]
+      "resolveJsonModule": true
     },
     "exclude": [
       "node_modules",

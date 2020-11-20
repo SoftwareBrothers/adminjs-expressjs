@@ -41,7 +41,8 @@
   },
   "devDependencies": {
     "@admin-bro/mongoose": "^1.1.0",
-    "@types/express": "^4.16.4",
+    "@commitlint/config-conventional": "^11.0.0",
+    "@types/express": "^4.17.9",
     "@types/express-formidable": "^1.0.4",
     "@types/express-serve-static-core": "^4.17.13",
     "@types/express-session": "^1.17.3",
@@ -51,6 +52,7 @@
     "@typescript-eslint/parser": "^4.8.1",
     "admin-bro": "^3.3.1",
     "chai": "^4.2.0",
+    "commitlint": "^11.0.0",
     "eslint": "^7.13.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^6.15.0",
