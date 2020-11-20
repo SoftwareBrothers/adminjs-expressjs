@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+      "module": "commonjs",
+      "target": "ES2018",
+      "sourceMap": true,
+      "outDir": "lib",
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "declaration": true,
+      "allowJs": true,
+      "types": ["express-formidable", "jest"],
+      "resolveJsonModule": true,
+      "typeRoots": ["@types", "./nodemodules/@types"]
+    },
+    "exclude": [
+      "node_modules",
+      "lib",
+      "test",
+      "commitlint.config.js"
+    ]
+  }

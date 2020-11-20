@@ -88,6 +88,7 @@
  * meaning that it should have at least an email property.
  */
 
-const Plugin = require('./plugin')
+import * as Plugin from "./src/plugin";
 
-module.exports = Plugin
+module.exports = Plugin;
+export default Plugin;
