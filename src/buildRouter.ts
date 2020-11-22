@@ -1,5 +1,5 @@
 import AdminBro, { Router as AdminRouter } from "admin-bro";
-import { Router } from "express";
+import { RequestHandler, Router } from "express";
 import formidableMiddleware from "express-formidable";
 import path from "path";
 import { WrongArgumentError } from "./errors";
@@ -30,7 +30,7 @@ export const buildRouter = (
     // we have to change routes defined in AdminBro from {recordId} to :recordId
     const expressPath = route.path.replace(/{/g, ":").replace(/}/g, "");
 
-    const handler = async (req, res, next) => {
+    const handler: RequestHandler = async (req, res, next) => {
       try {
         const controller = new route.Controller(
           { admin },

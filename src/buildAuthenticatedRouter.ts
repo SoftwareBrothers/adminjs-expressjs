@@ -59,9 +59,9 @@ export const buildAuthenticatedRouter = (
     cookieName?: string;
     authenticate: (email: string, password: string) => unknown | null;
   },
-  predefinedRouter: express.Router,
-  sessionOptions: session.SessionOptions,
-  formidableOptions: FormidableOptions
+  predefinedRouter?: express.Router,
+  sessionOptions?: session.SessionOptions,
+  formidableOptions?: FormidableOptions
 ): Router => {
   const router = predefinedRouter || express.Router();
 

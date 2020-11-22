@@ -7,7 +7,7 @@ export class WrongArgumentError extends Error {
 
 export class OldBodyParserUsedError extends Error {
   constructor(
-    private readonly message = `
+    message = `
   You probably used old \`body-parser\` middleware, which is not compatible
   with admin-bro-expressjs. In order to make it work you will have to
   1. move body-parser invocation after the admin bro setup like this:

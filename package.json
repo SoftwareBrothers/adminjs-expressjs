@@ -42,6 +42,7 @@
   "devDependencies": {
     "@admin-bro/mongoose": "^1.1.0",
     "@commitlint/config-conventional": "^11.0.0",
+    "@semantic-release/git": "^9.0.0",
     "@types/express": "^4.17.9",
     "@types/express-formidable": "^1.0.4",
     "@types/express-serve-static-core": "^4.17.13",
