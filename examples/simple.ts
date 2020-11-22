@@ -1,6 +1,7 @@
 import AdminBro from "admin-bro";
 import express from "express";
 import mongoose from "mongoose";
+
 import MongooseAdapter from "@admin-bro/mongoose";
 
 AdminBro.registerAdapter(MongooseAdapter);
@@ -9,11 +10,6 @@ import AdminBroExpress from "../index";
 
 import "./mongoose/article-model";
 import "./mongoose/admin-model";
-
-const ADMIN = {
-  email: "test@example.com",
-  password: "password",
-};
 
 const start = async () => {
   const connection = await mongoose.connect(
@@ -25,16 +21,7 @@ const start = async () => {
     databases: [connection],
     rootPath: "/admin",
   });
-
-  const router = AdminBroExpress.buildAuthenticatedRouter(adminBro, {
-    authenticate: async (email, password) => {
-      if (ADMIN.password === password && ADMIN.email === email) {
-        return ADMIN;
-      }
-      return null;
-    },
-    cookiePassword: "somasd1nda0asssjsdhb21uy3g",
-  });
+  const router = AdminBroExpress.buildRouter(adminBro);
 
   app.use(adminBro.options.rootPath, router);
 

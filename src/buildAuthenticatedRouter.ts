@@ -2,6 +2,7 @@ import AdminBro, { Router as AdminRouter } from "admin-bro";
 import express, { Router } from "express";
 import formidableMiddleware from "express-formidable";
 import session from "express-session";
+import { createLogoutHandler } from "./authentication/logout.handler";
 import { buildRouter } from "./buildRouter";
 import { OldBodyParserUsedError } from "./errors";
 import { FormidableOptions } from "./types";
@@ -158,11 +159,7 @@ export const buildAuthenticatedRouter = (
     }
   });
 
-  router.get(logoutPath, async (req, res) => {
-    req.session.destroy(() => {
-      res.redirect(admin.options.loginPath);
-    });
-  });
+  router.get(logoutPath, createLogoutHandler(admin));
 
   return buildRouter(admin, router, formidableOptions);
 };
