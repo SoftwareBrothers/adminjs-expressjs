@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "rm -rf lib && tsc --watch",
     "build": "rm -rf lib && tsc",
-    "simple": "nodemon",
+    "example:simple": "nodemon",
+    "example:auth": "nodemon --config nodemon.auth.json",
     "test": "jest --config ./test/jest.json",
     "lint": "eslint './**/*.ts'",
     "check:all": "yarn lint && yarn build && yarn test",

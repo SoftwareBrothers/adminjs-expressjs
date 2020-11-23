@@ -1,11 +1,21 @@
 import AdminBro from "admin-bro";
-import { RequestHandler } from "express-serve-static-core";
+import { Router } from "express";
 
-export const createLogoutHandler = (admin: AdminBro): RequestHandler => async (
-  request,
-  response
-) => {
-  request.session.destroy(() => {
-    response.redirect(admin.options.loginPath);
+const getLogoutPath = (admin: AdminBro) => {
+  const { logoutPath, rootPath } = admin.options;
+  const normalizedLogoutPath = logoutPath.replace(rootPath, "");
+
+  return normalizedLogoutPath.startsWith("/")
+    ? normalizedLogoutPath
+    : `/${normalizedLogoutPath}`;
+};
+
+export const withLogout = (router: Router, admin: AdminBro): void => {
+  const logoutPath = getLogoutPath(admin);
+
+  router.get(logoutPath, async (request, response) => {
+    request.session.destroy(() => {
+      response.redirect(admin.options.loginPath);
+    });
   });
 };

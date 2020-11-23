@@ -2,13 +2,12 @@ import AdminBro from "admin-bro";
 import express from "express";
 import mongoose from "mongoose";
 import MongooseAdapter from "@admin-bro/mongoose";
-
-AdminBro.registerAdapter(MongooseAdapter);
-
 import AdminBroExpress from "../index";
 
 import "./mongoose/article-model";
 import "./mongoose/admin-model";
+
+AdminBro.registerAdapter(MongooseAdapter);
 
 const ADMIN = {
   email: "test@example.com",

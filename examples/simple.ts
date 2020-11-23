@@ -1,19 +1,18 @@
 import AdminBro from "admin-bro";
 import express from "express";
 import mongoose from "mongoose";
-
 import MongooseAdapter from "@admin-bro/mongoose";
 
-AdminBro.registerAdapter(MongooseAdapter);
-
 import AdminBroExpress from "../index";
-
 import "./mongoose/article-model";
 import "./mongoose/admin-model";
 
+AdminBro.registerAdapter(MongooseAdapter);
+
 const start = async () => {
   const connection = await mongoose.connect(
-    process.env.MONGO_URL || "mongodb://localhost:27017/example"
+    process.env.MONGO_URL || "mongodb://localhost:27017/example",
+    { useNewUrlParser: true, useUnifiedTopology: true }
   );
   const app = express();
 

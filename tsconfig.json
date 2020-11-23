@@ -1,7 +1,6 @@
 {
     "compilerOptions": {
       "module": "commonjs",
-      "target": "ES2018",
       "sourceMap": true,
       "outDir": "lib",
       "esModuleInterop": true,
@@ -9,12 +8,24 @@
       "declaration": true,
       "allowJs": true,
       "types": ["express-formidable", "jest"],
-      "resolveJsonModule": true
+      "resolveJsonModule": true,
+      "target": "es2017",
+      "jsx": "preserve",
+      "importHelpers": true,
+      "strictNullChecks": true,
+      "strictPropertyInitialization": true,
+      "strictFunctionTypes": true,
+      "strictBindCallApply": true,
+      "noImplicitThis": true,
+      "moduleResolution": "node",
+      "baseUrl": "./",
+      "declarationDir": "types",
     },
     "exclude": [
       "node_modules",
       "lib",
       "test",
+      "types",
       "commitlint.config.js"
     ]
   }

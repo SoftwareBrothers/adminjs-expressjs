@@ -1,6 +1,6 @@
 import express from "express";
 import AdminBro from "admin-bro";
-import { buildRouter } from "../src/plugin";
+import { buildRouter } from "../src/buildRouter";
 
 describe("plugin", () => {
   describe(".buildRouter", () => {

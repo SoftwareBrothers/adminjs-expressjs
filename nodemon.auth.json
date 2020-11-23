@@ -1,0 +1,10 @@
+{
+    "verbose": false,
+    "ignore": ["*.test.*", "*.spec.*"],
+    "exec": "ts-node --files examples/auth.ts",
+    "watch": [
+      "src",
+      "examples"
+    ],
+  "ext": "ts"
+  }

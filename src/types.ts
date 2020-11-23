@@ -1,9 +1,17 @@
-import formidableMiddleware from "express-formidable";
+export type FormidableOptions = {
+  encoding?: string;
+  uploadDir?: string;
+  keepExtensions?: boolean;
+  type?: "multipart" | "urlencoded";
+  maxFileSize?: number;
+  maxFieldsSize?: number;
+  maxFields?: number;
+  hash?: boolean | "sha1" | "md5";
+  multiples?: boolean;
+};
 
-// Extracts types of function arguments
-// eslint-disable-next-line @typescript-eslint/ban-types, @typescript-eslint/no-explicit-any
-type ArgumentTypes<F extends Function> = F extends (...args: infer A) => any
-  ? A
-  : never;
-
-export type FormidableOptions = ArgumentTypes<typeof formidableMiddleware>[0];
+export type AuthenticationOptions = {
+  cookiePassword: string;
+  cookieName?: string;
+  authenticate: (email: string, password: string) => unknown | null;
+};
