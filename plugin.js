@@ -177,6 +177,8 @@ const buildAuthenticatedRouter = (
     ...sessionOptions,
     secret: auth.cookiePassword,
     name: auth.cookieName || 'adminbro',
+    resave: true,
+    saveUninitialized: true
   }))
 
   router.use(formidableMiddleware(formidableOptions))
