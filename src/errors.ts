@@ -9,7 +9,7 @@ export class OldBodyParserUsedError extends Error {
   constructor(
     message = `
   You probably used old \`body-parser\` middleware, which is not compatible
-  with admin-bro-expressjs. In order to make it work you will have to
+  with @admin-bro/express. In order to make it work you will have to
   1. move body-parser invocation after the admin bro setup like this:
   
   const adminBro = new AdminBro()
