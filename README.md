@@ -14,6 +14,9 @@ Or visit [AdminBro](https://github.com/SoftwareBrothers/admin-bro) github page.
 
 To see example usage visit the [Express section under AdminBro project page](https://softwarebrothers.github.io/admin-bro-dev/module-admin-bro-expressjs.html)
 
+## Debugging
+Set `process.env.ADMIN_BRO_EXPRESS_DEBUG` env variable to see debug logs from the library
+
 ## License
 
 AdminBro is Copyright © 2018 SoftwareBrothers.co. It is free software and may be redistributed under the terms specified in the [LICENSE](LICENSE) file.
