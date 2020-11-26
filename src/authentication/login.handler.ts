@@ -44,9 +44,9 @@ export const withLogin = (
           next(err);
         }
         if (req.session.redirectTo) {
-          res.redirect(req.session.redirectTo);
+          res.redirect(302, req.session.redirectTo);
         } else {
-          res.redirect(rootPath);
+          res.redirect(302, rootPath);
         }
       });
     } else {
