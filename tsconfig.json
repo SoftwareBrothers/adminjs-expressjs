@@ -21,7 +21,8 @@
       "baseUrl": "./",
       "declarationDir": "types",
       "typeRoots": [
-        "./typings"
+        "./typings",
+        "./node_modules/@types"
       ]
     },
     "exclude": [
