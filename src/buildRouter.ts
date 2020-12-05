@@ -11,7 +11,7 @@ const INVALID_ADMIN_BRO_INSTANCE =
 
 export const buildRouter = (
   admin: AdminBro,
-  predefinedRouter?: Router,
+  predefinedRouter?: Router | null,
   formidableOptions?: FormidableOptions
 ): Router => {
   if (!(admin instanceof AdminBro)) {

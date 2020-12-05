@@ -48,7 +48,7 @@ import formidableMiddleware from "express-formidable";
 export const buildAuthenticatedRouter = (
   admin: AdminBro,
   auth: AuthenticationOptions,
-  predefinedRouter?: express.Router,
+  predefinedRouter?: express.Router | null,
   sessionOptions?: session.SessionOptions,
   formidableOptions?: FormidableOptions
 ): Router => {

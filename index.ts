@@ -101,3 +101,5 @@ export const name = "AdminBroExpressjs";
 module.exports = { name, buildAuthenticatedRouter, buildRouter };
 
 export default { name, buildAuthenticatedRouter, buildRouter };
+
+export { AuthenticationOptions, FormidableOptions } from "./src/types";

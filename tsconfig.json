@@ -20,6 +20,9 @@
       "moduleResolution": "node",
       "baseUrl": "./",
       "declarationDir": "types",
+      "typeRoots": [
+        "./typings"
+      ]
     },
     "exclude": [
       "node_modules",
