@@ -1,35 +1,25 @@
 {
-    "compilerOptions": {
-      "module": "commonjs",
-      "sourceMap": true,
-      "outDir": "lib",
-      "esModuleInterop": true,
-      "allowSyntheticDefaultImports": true,
-      "declaration": true,
-      "allowJs": true,
-      "types": ["express-formidable", "jest"],
-      "resolveJsonModule": true,
-      "target": "es2017",
-      "jsx": "preserve",
-      "importHelpers": true,
-      "strictNullChecks": true,
-      "strictPropertyInitialization": true,
-      "strictFunctionTypes": true,
-      "strictBindCallApply": true,
-      "noImplicitThis": true,
-      "moduleResolution": "node",
-      "baseUrl": "./",
-      "declarationDir": "types",
-      "typeRoots": [
-        "./typings",
-        "./node_modules/@types"
-      ]
-    },
-    "exclude": [
-      "node_modules",
-      "lib",
-      "test",
-      "types",
-      "commitlint.config.js"
-    ]
-  }
+  "compilerOptions": {
+    "module": "commonjs",
+    "sourceMap": true,
+    "outDir": "lib",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "types": ["express-formidable", "jest", "./src/typings/express-session"],
+    "resolveJsonModule": true,
+    "target": "es2017",
+    "jsx": "preserve",
+    "importHelpers": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "noImplicitThis": true,
+    "moduleResolution": "node",
+    "baseUrl": "./",
+    "typeRoots": ["./src/typings", "./node_modules/@types"]
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["lib", "types"]
+}

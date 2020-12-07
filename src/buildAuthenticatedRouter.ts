@@ -55,7 +55,7 @@ export const buildAuthenticatedRouter = (
   const router = predefinedRouter || express.Router();
 
   router.use((req, _, next) => {
-    if (req._body) {
+    if ((req as any)._body) {
       next(new OldBodyParserUsedError());
     }
     next();

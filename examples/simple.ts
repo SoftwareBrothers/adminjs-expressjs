@@ -3,7 +3,7 @@ import express from "express";
 import mongoose from "mongoose";
 import MongooseAdapter from "@admin-bro/mongoose";
 
-import AdminBroExpress from "../index";
+import AdminBroExpress from "../src";
 import "./mongoose/article-model";
 import "./mongoose/admin-model";
 

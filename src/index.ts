@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
-import { buildAuthenticatedRouter } from "./src/buildAuthenticatedRouter";
-import { buildRouter } from "./src/buildRouter";
+import { buildAuthenticatedRouter } from "./buildAuthenticatedRouter";
+import { buildRouter } from "./buildRouter";
 
 /**
  * @module @admin-bro/express
@@ -97,9 +97,10 @@ import { buildRouter } from "./src/buildRouter";
  * @memberof module:@admin-bro/express
  */
 export const name = "AdminBroExpressjs";
+export { SessionData } from "express-session";
 
 module.exports = { name, buildAuthenticatedRouter, buildRouter };
 
 export default { name, buildAuthenticatedRouter, buildRouter };
 
-export { AuthenticationOptions, FormidableOptions } from "./src/types";
+export { AuthenticationOptions, FormidableOptions } from "./types";
