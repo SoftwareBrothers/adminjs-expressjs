@@ -14,7 +14,7 @@ jobs:
       - name: Setup
         uses: actions/setup-node@v1
         with:
-          node-version: '10.x'
+          node-version: "10.x"
       - uses: actions/cache@v1
         id: yarn-cache
         with:
@@ -36,7 +36,7 @@ jobs:
       - name: Setup
         uses: actions/setup-node@v1
         with:
-          node-version: '10.x'
+          node-version: "10.x"
       - uses: actions/cache@v1
         id: yarn-cache
         with:
@@ -64,7 +64,7 @@ jobs:
       - name: Setup
         uses: actions/setup-node@v1
         with:
-          node-version: '10.x'
+          node-version: "10.x"
       - uses: actions/cache@v1
         id: yarn-cache
         with:
@@ -75,6 +75,8 @@ jobs:
       - name: Install
         if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn install
+      - name: Build
+        run: yarn build
       - name: Release
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
