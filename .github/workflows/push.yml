@@ -49,9 +49,11 @@ jobs:
         run: yarn install
       - name: Lint
         run: yarn lint
+      - name: Build
+        run: yarn build
       - name: test
         run: yarn test
- 
+
   publish:
     name: Publish
     needs: test

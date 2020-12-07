@@ -20,6 +20,5 @@
     "baseUrl": "./",
     "typeRoots": ["./src/typings", "./node_modules/@types"]
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["lib", "types"]
+  "exclude": ["lib", "types", "test", "examples"]
 }
