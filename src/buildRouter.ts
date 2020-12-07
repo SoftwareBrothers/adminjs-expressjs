@@ -14,7 +14,7 @@ export const buildRouter = (
   predefinedRouter?: Router | null,
   formidableOptions?: FormidableOptions
 ): Router => {
-  if (!(admin instanceof AdminBro)) {
+  if (admin?.constructor?.name !== "AdminBro") {
     throw new WrongArgumentError(INVALID_ADMIN_BRO_INSTANCE);
   }
 
