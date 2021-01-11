@@ -1,4 +1,7 @@
 /* eslint-disable max-len */
+import { buildAuthenticatedRouter } from "./buildAuthenticatedRouter";
+import { buildRouter } from "./buildRouter";
+
 /**
  * @module @admin-bro/express
  * @subcategory Plugins
@@ -88,6 +91,16 @@
  * meaning that it should have at least an email property.
  */
 
-const Plugin = require('./plugin')
+/**
+ * Plugin name
+ * @static
+ * @memberof module:@admin-bro/express
+ */
+export const name = "AdminBroExpressjs";
+export { SessionData } from "express-session";
 
-module.exports = Plugin
+module.exports = { name, buildAuthenticatedRouter, buildRouter };
+
+export default { name, buildAuthenticatedRouter, buildRouter };
+
+export { AuthenticationOptions, FormidableOptions } from "./types";

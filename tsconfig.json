@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "sourceMap": true,
+    "outDir": "lib",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "types": ["express-formidable", "jest", "./src/typings/express-session"],
+    "resolveJsonModule": true,
+    "target": "es2017",
+    "jsx": "preserve",
+    "importHelpers": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "noImplicitThis": true,
+    "moduleResolution": "node",
+    "baseUrl": "./",
+    "typeRoots": ["./src/typings", "./node_modules/@types"]
+  },
+  "exclude": ["lib", "types", "test", "examples"]
+}

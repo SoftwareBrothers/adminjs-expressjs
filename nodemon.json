@@ -1,0 +1,9 @@
+{
+    "verbose": false,
+    "ignore": ["*.test.*", "*.spec.*"],
+    "exec": "ts-node --files examples/simple.ts",
+    "watch": [
+      "src",
+      "examples"
+    ]
+  }
