@@ -1,5 +1,7 @@
 import AdminBro, { Router as AdminRouter } from "admin-bro";
 import { Router } from "express";
+import { convertToExpressRoute } from "../convertRoutes";
+import { pathToRegexp } from "path-to-regexp";
 
 export const withProtectedRoutesHandler = (
   router: Router,
@@ -36,11 +38,16 @@ export const withProtectedRoutesHandler = (
   });
 };
 
-const isAdminRoute = (url: string, adminRootUrl: string) => {
-  const adminRoutes = AdminRouter.routes.filter((route) => route.path !== "");
+export const isAdminRoute = (url: string, adminRootUrl: string): boolean => {
+  const adminRoutes = AdminRouter.routes
+    .map((route) => convertToExpressRoute(route.path))
+    .filter((route) => route !== "");
   const isAdminRootUrl = url === adminRootUrl;
 
-  return isAdminRootUrl || adminRoutes.find((route) => route.path === url);
+  return (
+    isAdminRootUrl ||
+    !!adminRoutes.find((route) => pathToRegexp(route).test(url))
+  );
 };
 
 const isAdminAsset = (url: string) =>
