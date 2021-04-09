@@ -43,7 +43,11 @@ export const isAdminRoute = (url: string, adminRootUrl: string): boolean => {
     .map((route) => convertToExpressRoute(route.path))
     .filter((route) => route !== "");
   const isAdminRootUrl = url === adminRootUrl;
-  const urlWithoutRoot = url.substring(adminRootUrl?.length ?? 0, url.length);
+  let urlWithoutRoot = url;
+
+  if (adminRootUrl?.length && adminRootUrl !== "/") {
+    urlWithoutRoot = url.substring(adminRootUrl?.length ?? 0, url.length);
+  }
 
   return (
     isAdminRootUrl ||
