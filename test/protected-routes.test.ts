@@ -32,5 +32,11 @@ describe("Protected routes", () => {
     it("should detect non-admin routes", () => {
       expect(isAdminRoute("/api/my-endpoint", "/")).toBeFalsy();
     });
+
+    it("should detect admin routes with base url", () => {
+      expect(
+        isAdminRoute("/admin/resources/someResource/actions/new", "/admin")
+      ).toBeTruthy();
+    });
   });
 });

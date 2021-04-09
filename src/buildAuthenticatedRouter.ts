@@ -55,6 +55,7 @@ export const buildAuthenticatedRouter = (
   const router = predefinedRouter || express.Router();
 
   router.use((req, _, next) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if ((req as any)._body) {
       next(new OldBodyParserUsedError());
     }
