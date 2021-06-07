@@ -10,7 +10,7 @@
     "resolveJsonModule": true,
     "target": "es2017",
     "jsx": "preserve",
-    "importHelpers": true,
+    "importHelpers": false,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
     "strictFunctionTypes": true,
