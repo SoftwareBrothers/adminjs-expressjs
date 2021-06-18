@@ -1,13 +1,13 @@
-import AdminBro from "admin-bro";
+import AdminJS from "adminjs";
 import express from "express";
 import mongoose from "mongoose";
-import MongooseAdapter from "@admin-bro/mongoose";
+import MongooseAdapter from "@adminjs/mongoose";
 
-import AdminBroExpress from "../src";
+import AdminJSExpress from "../src";
 import "./mongoose/article-model";
 import "./mongoose/admin-model";
 
-AdminBro.registerAdapter(MongooseAdapter);
+AdminJS.registerAdapter(MongooseAdapter);
 
 const start = async () => {
   const connection = await mongoose.connect(
@@ -16,16 +16,16 @@ const start = async () => {
   );
   const app = express();
 
-  const adminBro = new AdminBro({
+  const adminJs = new AdminJS({
     databases: [connection],
     rootPath: "/admin",
   });
-  const router = AdminBroExpress.buildRouter(adminBro);
+  const router = AdminJSExpress.buildRouter(adminJs);
 
-  app.use(adminBro.options.rootPath, router);
+  app.use(adminJs.options.rootPath, router);
 
   app.listen(process.env.PORT || 8080, () =>
-    console.log("AdminBro is under localhost:8080/admin")
+    console.log("AdminJS is running under localhost:8080/admin")
   );
 };
 

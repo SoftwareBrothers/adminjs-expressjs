@@ -1,7 +1,7 @@
-import AdminBro from "admin-bro";
+import AdminJS from "adminjs";
 import { Router } from "express";
 
-const getLogoutPath = (admin: AdminBro) => {
+const getLogoutPath = (admin: AdminJS) => {
   const { logoutPath, rootPath } = admin.options;
   const normalizedLogoutPath = logoutPath.replace(rootPath, "");
 
@@ -10,7 +10,7 @@ const getLogoutPath = (admin: AdminBro) => {
     : `/${normalizedLogoutPath}`;
 };
 
-export const withLogout = (router: Router, admin: AdminBro): void => {
+export const withLogout = (router: Router, admin: AdminJS): void => {
   const logoutPath = getLogoutPath(admin);
 
   router.get(logoutPath, async (request, response) => {

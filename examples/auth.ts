@@ -1,13 +1,13 @@
-import AdminBro from "admin-bro";
+import AdminJS from "adminjs";
 import express from "express";
 import mongoose from "mongoose";
-import MongooseAdapter from "@admin-bro/mongoose";
-import AdminBroExpress from "../src";
+import MongooseAdapter from "@adminjs/mongoose";
+import AdminJSExpress from "../src";
 
 import "./mongoose/article-model";
 import "./mongoose/admin-model";
 
-AdminBro.registerAdapter(MongooseAdapter);
+AdminJS.registerAdapter(MongooseAdapter);
 
 const ADMIN = {
   email: "test@example.com",
@@ -20,12 +20,12 @@ const start = async () => {
   );
   const app = express();
 
-  const adminBro = new AdminBro({
+  const adminJs = new AdminJS({
     databases: [connection],
     rootPath: "/admin",
   });
 
-  const router = AdminBroExpress.buildAuthenticatedRouter(adminBro, {
+  const router = AdminJSExpress.buildAuthenticatedRouter(adminJs, {
     authenticate: async (email, password) => {
       if (ADMIN.password === password && ADMIN.email === email) {
         return ADMIN;
@@ -35,10 +35,10 @@ const start = async () => {
     cookiePassword: "somasd1nda0asssjsdhb21uy3g",
   });
 
-  app.use(adminBro.options.rootPath, router);
+  app.use(adminJs.options.rootPath, router);
 
   app.listen(process.env.PORT || 8080, () =>
-    console.log("AdminBro is under localhost:8080/admin")
+    console.log("AdminJS is running under localhost:8080/admin")
   );
 };
 
