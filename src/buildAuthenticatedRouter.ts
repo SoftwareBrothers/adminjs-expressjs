@@ -1,4 +1,4 @@
-import AdminBro from "admin-bro";
+import AdminJS from "adminjs";
 import express, { Router } from "express";
 import session from "express-session";
 import { withLogout } from "./authentication/logout.handler";
@@ -11,7 +11,7 @@ import formidableMiddleware from "express-formidable";
 
 /**
  * @typedef {Function} Authenticate
- * @memberof module:@admin-bro/express
+ * @memberof module:@adminjs/express
  * @description
  * function taking 2 arguments email and password
  * @param {string} [email]         email given in the form
@@ -27,26 +27,26 @@ import formidableMiddleware from "express-formidable";
  * not optimized for production usage and, in development, it causes
  * logging out after every page refresh (if you use nodemon).
  * @static
- * @memberof module:@admin-bro/express
+ * @memberof module:@adminjs/express
  * @example
  * const ADMIN = {
  *   email: 'test@example.com',
  *   password: 'password',
  * }
  *
- * AdminBroExpress.buildAuthenticatedRouter(adminBro, {
+ * AdminJSExpress.buildAuthenticatedRouter(adminJs, {
  *   authenticate: async (email, password) => {
  *     if (ADMIN.password === password && ADMIN.email === email) {
  *       return ADMIN
  *     }
  *     return null
  *   },
- *   cookieName: 'adminbro',
+ *   cookieName: 'adminjs',
  *   cookiePassword: 'somePassword',
  * }, [router])
  */
 export const buildAuthenticatedRouter = (
-  admin: AdminBro,
+  admin: AdminJS,
   auth: AuthenticationOptions,
   predefinedRouter?: express.Router | null,
   sessionOptions?: session.SessionOptions,
@@ -65,7 +65,7 @@ export const buildAuthenticatedRouter = (
     session({
       ...sessionOptions,
       secret: auth.cookiePassword,
-      name: auth.cookieName || "adminbro",
+      name: auth.cookieName || "adminjs",
     })
   );
   router.use(formidableMiddleware(formidableOptions));

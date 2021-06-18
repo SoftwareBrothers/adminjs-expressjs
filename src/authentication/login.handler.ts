@@ -1,8 +1,8 @@
-import AdminBro from "admin-bro";
+import AdminJS from "adminjs";
 import { Router } from "express";
 import { AuthenticationOptions } from "../types";
 
-const getLoginPath = (admin: AdminBro): string => {
+const getLoginPath = (admin: AdminJS): string => {
   const { loginPath, rootPath } = admin.options;
   // since we are inside already namespaced router we have to replace login and logout routes that
   // they don't have rootUrl inside. So changing /admin/login to just /login.
@@ -17,7 +17,7 @@ const getLoginPath = (admin: AdminBro): string => {
 
 export const withLogin = (
   router: Router,
-  admin: AdminBro,
+  admin: AdminJS,
   auth: AuthenticationOptions
 ): void => {
   const { rootPath } = admin.options;
