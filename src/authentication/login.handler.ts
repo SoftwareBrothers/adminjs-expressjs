@@ -1,6 +1,9 @@
-import AdminJS from "adminjs";
-import { Router } from "express";
-import { AuthenticationOptions } from "../types";
+import AdminJS from 'adminjs';
+import { Router } from 'express';
+import {
+  AuthenticationMaxRetriesOptions,
+  AuthenticationOptions,
+} from '../types';
 
 const getLoginPath = (admin: AdminJS): string => {
   const { loginPath, rootPath } = admin.options;
@@ -14,6 +17,48 @@ const getLoginPath = (admin: AdminJS): string => {
     ? normalizedLoginPath
     : `/${normalizedLoginPath}`;
 };
+
+class Retry {
+  private static retriesContainer: Map<string, Retry> = new Map();
+  private lastRetry: Date | undefined;
+  private retriesCount = 0;
+
+  constructor(ip: string) {
+    const existing = Retry.retriesContainer.get(ip);
+    if (existing) {
+      return existing;
+    }
+    Retry.retriesContainer.set(ip, this);
+  }
+
+  public canLogin(
+    maxRetries: number | AuthenticationMaxRetriesOptions | undefined
+  ): boolean {
+    if (maxRetries === undefined) {
+      return true;
+    } else if (typeof maxRetries === "number") {
+      maxRetries = {
+        count: maxRetries,
+        duration: 60,
+      };
+    } else if (maxRetries.count <= 0) {
+      return true;
+    }
+    if (
+      !this.lastRetry ||
+      new Date().getTime() - this.lastRetry.getTime() >
+        maxRetries.duration * 1000
+    ) {
+      this.lastRetry = new Date();
+      this.retriesCount = 1;
+      return true;
+    } else {
+      this.lastRetry = new Date();
+      this.retriesCount++;
+      return this.retriesCount <= maxRetries.count;
+    }
+  }
+}
 
 export const withLogin = (
   router: Router,
@@ -32,6 +77,14 @@ export const withLogin = (
   });
 
   router.post(loginPath, async (req, res, next) => {
+    if (new Retry(req.ip).canLogin(auth.maxRetries)) {
+      const login = await admin.renderLogin({
+        action: admin.options.loginPath,
+        errorMessage: "tooManyRequests",
+      });
+      res.send(login);
+      return;
+    }
     const { email, password } = req.fields as {
       email: string;
       password: string;

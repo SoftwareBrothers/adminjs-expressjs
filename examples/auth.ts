@@ -1,11 +1,11 @@
-import AdminJS from "adminjs";
-import express from "express";
-import mongoose from "mongoose";
-import MongooseAdapter from "@adminjs/mongoose";
-import AdminJSExpress from "../src";
+import MongooseAdapter from '@adminjs/mongoose';
+import AdminJS from 'adminjs';
+import express from 'express';
+import mongoose from 'mongoose';
+import AdminJSExpress from '../src';
+import './mongoose/admin-model';
 
-import "./mongoose/article-model";
-import "./mongoose/admin-model";
+import './mongoose/article-model';
 
 AdminJS.registerAdapter(MongooseAdapter);
 
@@ -33,6 +33,10 @@ const start = async () => {
       return null;
     },
     cookiePassword: "somasd1nda0asssjsdhb21uy3g",
+    maxRetries: {
+      count: 3,
+      duration: 120,
+    },
   });
 
   app.use(adminJs.options.rootPath, router);
