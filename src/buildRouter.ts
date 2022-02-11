@@ -1,4 +1,4 @@
-import AdminBro, { Router as AdminRouter } from "admin-bro";
+import AdminJS, { Router as AdminRouter } from "adminjs";
 import { RequestHandler, Router } from "express";
 import formidableMiddleware from "express-formidable";
 import path from "path";
@@ -7,20 +7,20 @@ import { log } from "./logger";
 import { FormidableOptions } from "./types";
 import { convertToExpressRoute } from "./convertRoutes";
 
-const INVALID_ADMIN_BRO_INSTANCE =
-  "You have to pass an instance of AdminBro to the buildRouter() function";
+const INVALID_ADMINJS_INSTANCE =
+  "You have to pass an instance of AdminJS to the buildRouter() function";
 
 export const buildRouter = (
-  admin: AdminBro,
+  admin: AdminJS,
   predefinedRouter?: Router | null,
   formidableOptions?: FormidableOptions
 ): Router => {
-  if (admin?.constructor?.name !== "AdminBro") {
-    throw new WrongArgumentError(INVALID_ADMIN_BRO_INSTANCE);
+  if (admin?.constructor?.name !== "AdminJS") {
+    throw new WrongArgumentError(INVALID_ADMINJS_INSTANCE);
   }
 
   admin.initialize().then(() => {
-    log.debug("AdminBro: bundle ready");
+    log.debug("AdminJS: bundle ready");
   });
 
   const { routes, assets } = AdminRouter;

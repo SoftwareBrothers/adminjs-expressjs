@@ -1,7 +1,7 @@
 {
-  "name": "@admin-bro/express",
-  "version": "3.1.0-beta.6",
-  "description": "This is an official AdminBro plugin which integrates it to expressjs framework",
+  "name": "@adminjs/express",
+  "version": "4.0.1",
+  "description": "This is an official AdminJS plugin which integrates it with Express.js framework",
   "main": "lib/index.js",
   "scripts": {
     "dev": "rm -rf lib && tsc --watch",
@@ -15,25 +15,26 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SoftwareBrothers/admin-bro-expressjs.git"
+    "url": "git+https://github.com/SoftwareBrothers/adminjs-expressjs.git"
   },
   "keywords": [
     "expressjs",
     "admin",
-    "adminbro",
+    "adminjs",
     "admin-panel"
   ],
   "author": "Michał Laskowski",
   "license": "SEE LICENSE IN LICENSE",
   "bugs": {
-    "url": "https://github.com/SoftwareBrothers/admin-bro-expressjs/issues"
+    "url": "https://github.com/SoftwareBrothers/adminjs-expressjs/issues"
   },
-  "homepage": "https://github.com/SoftwareBrothers/admin-bro-expressjs#readme",
+  "homepage": "https://github.com/SoftwareBrothers/adminjs-expressjs#readme",
   "peerDependencies": {
-    "admin-bro": ">=3.0.0",
+    "adminjs": ">=5.0.0",
     "express": ">=4.16.4",
     "express-formidable": "^1.2.0",
-    "express-session": ">=1.15.6"
+    "express-session": ">=1.15.6",
+    "tslib": "^2.3.1"
   },
   "husky": {
     "hooks": {
@@ -41,7 +42,7 @@
     }
   },
   "devDependencies": {
-    "@admin-bro/mongoose": "^1.1.0",
+    "@adminjs/mongoose": "^2.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "@semantic-release/git": "^9.0.0",
     "@types/express": "^4.17.9",
@@ -52,7 +53,7 @@
     "@types/mongoose": "^5.10.1",
     "@typescript-eslint/eslint-plugin": "^4.8.1",
     "@typescript-eslint/parser": "^4.8.1",
-    "admin-bro": "^3.3.1",
+    "adminjs": "^5.0.0",
     "chai": "^4.2.0",
     "commitlint": "^11.0.0",
     "eslint": "^7.13.0",

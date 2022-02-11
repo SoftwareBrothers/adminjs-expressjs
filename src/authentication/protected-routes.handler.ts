@@ -1,11 +1,11 @@
-import AdminBro, { Router as AdminRouter } from "admin-bro";
+import AdminJS, { Router as AdminRouter } from "adminjs";
 import { Router } from "express";
 import { convertToExpressRoute } from "../convertRoutes";
 import { pathToRegexp } from "path-to-regexp";
 
 export const withProtectedRoutesHandler = (
   router: Router,
-  admin: AdminBro
+  admin: AdminJS
 ): void => {
   const { rootPath } = admin.options;
 
