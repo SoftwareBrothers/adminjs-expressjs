@@ -28,7 +28,7 @@ export const buildRouter = (
   router.use(formidableMiddleware(formidableOptions));
 
   routes.forEach((route) => {
-    // we have to change routes defined in AdminBro from {recordId} to :recordId
+    // we have to change routes defined in AdminJS from {recordId} to :recordId
     const expressPath = convertToExpressRoute(route.path);
 
     const handler: RequestHandler = async (req, res, next) => {
