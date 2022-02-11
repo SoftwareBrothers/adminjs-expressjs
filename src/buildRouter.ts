@@ -5,6 +5,7 @@ import path from "path";
 import { WrongArgumentError } from "./errors";
 import { log } from "./logger";
 import { FormidableOptions } from "./types";
+import { convertToExpressRoute } from "./convertRoutes";
 
 const INVALID_ADMINJS_INSTANCE =
   "You have to pass an instance of AdminJS to the buildRouter() function";
@@ -28,7 +29,7 @@ export const buildRouter = (
 
   routes.forEach((route) => {
     // we have to change routes defined in AdminJS from {recordId} to :recordId
-    const expressPath = route.path.replace(/{/g, ":").replace(/}/g, "");
+    const expressPath = convertToExpressRoute(route.path);
 
     const handler: RequestHandler = async (req, res, next) => {
       try {
