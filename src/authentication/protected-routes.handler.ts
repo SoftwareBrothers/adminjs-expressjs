@@ -7,7 +7,7 @@ export const withProtectedRoutesHandler = (
   router: Router,
   admin: AdminJS
 ): void => {
-  const { rootPath } = admin.options;
+  const { rootPath, loginPath, logoutPath } = admin.options;
 
   router.use((req, res, next) => {
     if (isAdminAsset(req.originalUrl)) {
@@ -15,8 +15,8 @@ export const withProtectedRoutesHandler = (
     } else if (
       req.session.adminUser ||
       // these routes doesn't need authentication
-      req.originalUrl.startsWith(admin.options.loginPath) ||
-      req.originalUrl.startsWith(admin.options.logoutPath)
+      req.originalUrl.startsWith(loginPath) ||
+      req.originalUrl.startsWith(logoutPath)
     ) {
       next();
     } else if (isAdminRoute(req.originalUrl, rootPath)) {
@@ -30,7 +30,7 @@ export const withProtectedRoutesHandler = (
         if (err) {
           next(err);
         }
-        res.redirect(admin.options.loginPath);
+        res.redirect(loginPath);
       });
     } else {
       next();
@@ -38,15 +38,24 @@ export const withProtectedRoutesHandler = (
   });
 };
 
-export const isAdminRoute = (url: string, adminRootUrl: string): boolean => {
+export const isAdminRoute = (url: string, adminRootPath: string): boolean => {
   const adminRoutes = AdminRouter.routes
     .map((route) => convertToExpressRoute(route.path))
     .filter((route) => route !== "");
-  const isAdminRootUrl = url === adminRootUrl;
+
+  let urlWithoutRootPath = url;
+  if (adminRootPath !== '/') {
+    urlWithoutRootPath = url.replace(adminRootPath, '');
+    if (!urlWithoutRootPath.startsWith('/')) {
+      urlWithoutRootPath = `/${urlWithoutRootPath}`
+    }
+  }
+
+  const isAdminRootUrl = url === adminRootPath || urlWithoutRootPath === '/';
 
   return (
     isAdminRootUrl ||
-    !!adminRoutes.find((route) => pathToRegexp(route).test(url))
+    !!adminRoutes.find((route) => pathToRegexp(route).test(urlWithoutRootPath))
   );
 };
 

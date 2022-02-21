@@ -2,7 +2,7 @@ import { isAdminRoute } from "../src/authentication/protected-routes.handler";
 
 describe("Protected routes", () => {
   describe("#isAdminRoute", () => {
-    it("should detect admin routes", () => {
+    it("should detect admin routes when root path is /", () => {
       const adminRoutes = [
         "/",
         "/resources/someResource",
@@ -26,6 +26,33 @@ describe("Protected routes", () => {
 
       adminRoutes.forEach((route) => {
         expect(isAdminRoute(route, "/")).toBeTruthy();
+      });
+    });
+
+    it("should detect admin routes when root path is not /", () => {
+      const adminRoutes = [
+        "/admin",
+        "/admin/resources/someResource",
+        "/admin/api/resources/someResource/search/searchQuery",
+        "/admin/resources/someResource/actions/someAction",
+        "/admin/api/resources/someResource/actions/someAction",
+        "/admin/api/resources/someResource/actions/someAction/searchQuery",
+        "/admin/api/resources/someResource/actions/someAction",
+        "/admin/resources/someResource/records/someRecordId/someAction",
+        "/admin/api/resources/someResource/records/someRecordId/someAction",
+        "/admin/api/resources/someResource/records/someRecordId/someAction",
+        "/admin/resources/someResource/bulk/someAction",
+        "/admin/api/resources/someResource/bulk/someAction",
+        "/admin/api/resources/someResource/bulk/someAction",
+        "/admin/api/resources/someResource/search/",
+        "/admin/api/dashboard",
+        "/admin/pages/somePage",
+        "/admin/api/pages/somePage",
+        "/admin/api/pages/somePage",
+      ];
+
+      adminRoutes.forEach((route) => {
+        expect(isAdminRoute(route, "/admin")).toBeTruthy();
       });
     });
 
