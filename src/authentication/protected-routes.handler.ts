@@ -43,19 +43,21 @@ export const isAdminRoute = (url: string, adminRootPath: string): boolean => {
     .map((route) => convertToExpressRoute(route.path))
     .filter((route) => route !== "");
 
-  let urlWithoutRootPath = url;
-  if (adminRootPath !== '/') {
-    urlWithoutRootPath = url.replace(adminRootPath, '');
-    if (!urlWithoutRootPath.startsWith('/')) {
-      urlWithoutRootPath = `/${urlWithoutRootPath}`
+  let urlWithoutAdminRootPath = url;
+  if (adminRootPath !== "/") {
+    urlWithoutAdminRootPath = url.replace(adminRootPath, "");
+    if (!urlWithoutAdminRootPath.startsWith("/")) {
+      urlWithoutAdminRootPath = `/${urlWithoutAdminRootPath}`;
     }
   }
 
-  const isAdminRootUrl = url === adminRootPath || urlWithoutRootPath === '/';
+  const isAdminRootUrl = url === adminRootPath;
 
   return (
     isAdminRootUrl ||
-    !!adminRoutes.find((route) => pathToRegexp(route).test(urlWithoutRootPath))
+    !!adminRoutes.find((route) =>
+      pathToRegexp(route).test(urlWithoutAdminRootPath)
+    )
   );
 };
 
