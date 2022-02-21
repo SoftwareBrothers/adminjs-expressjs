@@ -56,8 +56,12 @@ describe("Protected routes", () => {
       });
     });
 
-    it("should detect non-admin routes", () => {
+    it("should detect non-admin routes when root path is /", () => {
       expect(isAdminRoute("/api/my-endpoint", "/")).toBeFalsy();
+    });
+
+    it("should detect non-admin routes when root path is not /", () => {
+      expect(isAdminRoute("/admin/api/my-endpoint", "/admin")).toBeFalsy();
     });
   });
 });
