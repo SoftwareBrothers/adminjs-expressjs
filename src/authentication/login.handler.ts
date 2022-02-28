@@ -77,7 +77,7 @@ export const withLogin = (
   });
 
   router.post(loginPath, async (req, res, next) => {
-    if (new Retry(req.ip).canLogin(auth.maxRetries)) {
+    if (!new Retry(req.ip).canLogin(auth.maxRetries)) {
       const login = await admin.renderLogin({
         action: admin.options.loginPath,
         errorMessage: "tooManyRequests",
