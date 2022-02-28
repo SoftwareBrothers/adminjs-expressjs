@@ -10,8 +10,23 @@ export type FormidableOptions = {
   multiples?: boolean;
 };
 
+export type AuthenticationMaxRetriesOptions = {
+  /**
+   * @description Count of retries
+   */
+  count: number;
+  /**
+   * @description Time to reset (in seconds)
+   */
+  duration: number;
+};
+
 export type AuthenticationOptions = {
   cookiePassword: string;
   cookieName?: string;
   authenticate: (email: string, password: string) => unknown | null;
+  /**
+   * @description Maximum number of authorization attempts (if number - per minute)
+   */
+  maxRetries?: number | AuthenticationMaxRetriesOptions;
 };
