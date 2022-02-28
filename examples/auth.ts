@@ -1,11 +1,11 @@
-import MongooseAdapter from '@adminjs/mongoose';
-import AdminJS from 'adminjs';
-import express from 'express';
-import mongoose from 'mongoose';
-import AdminJSExpress from '../src';
-import './mongoose/admin-model';
+import MongooseAdapter from "@adminjs/mongoose";
+import AdminJS from "adminjs";
+import express from "express";
+import mongoose from "mongoose";
+import AdminJSExpress from "../src";
+import "./mongoose/admin-model";
 
-import './mongoose/article-model';
+import "./mongoose/article-model";
 
 AdminJS.registerAdapter(MongooseAdapter);
 

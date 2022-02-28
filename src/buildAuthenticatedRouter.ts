@@ -1,16 +1,13 @@
-import AdminJS from 'adminjs';
-import express, { Router } from 'express';
-import formidableMiddleware from 'express-formidable';
-import session from 'express-session';
-import { withLogin } from './authentication/login.handler';
-import { withLogout } from './authentication/logout.handler';
-import { withProtectedRoutesHandler } from './authentication/protected-routes.handler';
-import { buildRouter } from './buildRouter';
-import { OldBodyParserUsedError } from './errors';
-import {
-  AuthenticationOptions,
-  FormidableOptions,
-} from './types';
+import AdminJS from "adminjs";
+import express, { Router } from "express";
+import formidableMiddleware from "express-formidable";
+import session from "express-session";
+import { withLogin } from "./authentication/login.handler";
+import { withLogout } from "./authentication/logout.handler";
+import { withProtectedRoutesHandler } from "./authentication/protected-routes.handler";
+import { buildRouter } from "./buildRouter";
+import { OldBodyParserUsedError } from "./errors";
+import { AuthenticationOptions, FormidableOptions } from "./types";
 
 /**
  * @typedef {Function} Authenticate
