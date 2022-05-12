@@ -57,13 +57,22 @@ describe("Protected routes", () => {
     });
 
     it("should detect admin routes when query params are included", () => {
-      const route = "/resources/list?filters.someFilter=123";
+      const route =
+        "/resources/someResource/actions/list?filters.someFilter=123";
 
       expect(isAdminRoute(route, "/")).toBeTruthy();
     });
 
+    it("should detect admin routes when query params are included and root path is not /", () => {
+      const route =
+        "/admin/resources/someResource/actions/list?filters.someFilter=123";
+
+      expect(isAdminRoute(route, "/admin")).toBeTruthy();
+    });
+
     it("should not detect admin routes when query params are included but root is different", () => {
-      const route = "/resources/list?filters.someFilter=123";
+      const route =
+        "/resources/someResource/actions/list?filters.someFilter=123";
 
       expect(isAdminRoute(route, "/admin")).toBeFalsy();
     });
