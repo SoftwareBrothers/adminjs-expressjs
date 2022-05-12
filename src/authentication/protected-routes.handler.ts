@@ -3,6 +3,15 @@ import { Router } from "express";
 import { convertToExpressRoute } from "../convertRoutes";
 import { pathToRegexp } from "path-to-regexp";
 
+const doesNotRequireAuthentication = (
+  url: string,
+  { loginPath, logoutPath }
+) => {
+  return (
+    isAdminAsset(url) || url.startsWith(loginPath) || url.startsWith(logoutPath)
+  );
+};
+
 export const withProtectedRoutesHandler = (
   router: Router,
   admin: AdminJS
@@ -10,31 +19,17 @@ export const withProtectedRoutesHandler = (
   const { rootPath, loginPath, logoutPath } = admin.options;
 
   router.use((req, res, next) => {
-    if (isAdminAsset(req.originalUrl)) {
-      next();
-    } else if (
-      req.session.adminUser ||
-      // these routes doesn't need authentication
-      req.originalUrl.startsWith(loginPath) ||
-      req.originalUrl.startsWith(logoutPath)
+    if (
+      doesNotRequireAuthentication(req.originalUrl, { loginPath, logoutPath })
     ) {
-      next();
-    } else if (isAdminRoute(req.originalUrl, rootPath)) {
-      // If the redirection is caused by API call to some action just redirect to resource
-      const [redirectTo] = req.originalUrl.split("/actions");
-      req.session.redirectTo = redirectTo.includes(`${rootPath}/api`)
-        ? rootPath
-        : redirectTo;
-
-      req.session.save((err) => {
-        if (err) {
-          next(err);
-        }
-        res.redirect(loginPath);
-      });
-    } else {
-      next();
+      return next();
     }
+
+    if (isAdminRoute(req.originalUrl, rootPath) && !!req.session.adminUser) {
+      return next();
+    }
+
+    return res.redirect(loginPath);
   });
 };
 
@@ -43,7 +38,7 @@ export const isAdminRoute = (url: string, adminRootPath: string): boolean => {
     .map((route) => convertToExpressRoute(route.path))
     .filter((route) => route !== "");
 
-  let urlWithoutAdminRootPath = url;
+  let urlWithoutAdminRootPath = url.split("?")[0];
   if (adminRootPath !== "/") {
     urlWithoutAdminRootPath = url.replace(adminRootPath, "");
     if (!urlWithoutAdminRootPath.startsWith("/")) {
@@ -55,7 +50,7 @@ export const isAdminRoute = (url: string, adminRootPath: string): boolean => {
 
   return (
     isAdminRootUrl ||
-    !!adminRoutes.find((route) =>
+    adminRoutes.some((route) =>
       pathToRegexp(route).test(urlWithoutAdminRootPath)
     )
   );
