@@ -33,26 +33,34 @@ export const withProtectedRoutesHandler = (
   });
 };
 
-export const isAdminRoute = (url: string, adminRootPath: string): boolean => {
+export const isAdminRoute = (
+  originalUrl: string,
+  adminRootPath: string
+): boolean => {
   const adminRoutes = AdminRouter.routes
     .map((route) => convertToExpressRoute(route.path))
     .filter((route) => route !== "");
 
-  let urlWithoutAdminRootPath = url.split("?")[0];
+  let urlWithoutAdminRootPath = originalUrl.split("?")[0];
   if (adminRootPath !== "/") {
-    urlWithoutAdminRootPath = url.replace(adminRootPath, "");
+    urlWithoutAdminRootPath = urlWithoutAdminRootPath.replace(
+      adminRootPath,
+      ""
+    );
     if (!urlWithoutAdminRootPath.startsWith("/")) {
       urlWithoutAdminRootPath = `/${urlWithoutAdminRootPath}`;
     }
   }
 
-  const isAdminRootUrl = url === adminRootPath;
+  const isAdminRootUrl = originalUrl === adminRootPath;
+  const isAnUrlUnderRootPath = originalUrl.startsWith(adminRootPath);
 
   return (
     isAdminRootUrl ||
-    adminRoutes.some((route) =>
+    (adminRoutes.some((route) =>
       pathToRegexp(route).test(urlWithoutAdminRootPath)
-    )
+    ) &&
+      isAnUrlUnderRootPath)
   );
 };
 
