@@ -25,11 +25,14 @@ export const withProtectedRoutesHandler = (
       return next();
     }
 
-    if (isAdminRoute(req.originalUrl, rootPath) && !!req.session.adminUser) {
-      return next();
+    if (isAdminRoute(req.originalUrl, rootPath)) {
+      if (!!req.session.adminUser) {
+        return next();
+      }
+      return res.redirect(loginPath);
     }
 
-    return res.redirect(loginPath);
+    return next(); // custom routes in admin router
   });
 };
 
