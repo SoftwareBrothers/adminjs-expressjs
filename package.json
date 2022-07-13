@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/SoftwareBrothers/adminjs-expressjs#readme",
   "peerDependencies": {
-    "adminjs": ">=5.0.0",
+    "adminjs": ">=6.0.0",
     "express": ">=4.16.4",
     "express-formidable": "^1.2.0",
     "express-session": ">=1.15.6",
@@ -53,7 +53,7 @@
     "@types/mongoose": "^5.10.1",
     "@typescript-eslint/eslint-plugin": "^4.8.1",
     "@typescript-eslint/parser": "^4.8.1",
-    "adminjs": "^5.0.0",
+    "adminjs": "^6.0.0",
     "chai": "^4.2.0",
     "commitlint": "^11.0.0",
     "eslint": "^7.13.0",
