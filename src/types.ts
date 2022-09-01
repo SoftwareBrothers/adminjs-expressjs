@@ -24,7 +24,7 @@ export type AuthenticationMaxRetriesOptions = {
 export type AuthenticationOptions = {
   cookiePassword: string;
   cookieName?: string;
-  authenticate: (email: string, password: string) => unknown | null;
+  authenticate: (email: string, password: string, req: any) => unknown | null;
   /**
    * @description Maximum number of authorization attempts (if number - per minute)
    */
