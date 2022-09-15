@@ -6,7 +6,7 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "declaration": true,
-    "types": ["express-formidable", "jest", "./src/typings/express-session"],
+    "types": ["jest", "./src/typings/express-session"],
     "resolveJsonModule": true,
     "target": "es2017",
     "jsx": "preserve",

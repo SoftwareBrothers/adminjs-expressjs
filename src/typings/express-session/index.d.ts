@@ -1,8 +1,8 @@
-export {};
+export {}
 
-declare module "express-session" {
+declare module 'express-session' {
   interface SessionData {
-    adminUser?: unknown;
-    redirectTo?: string;
+    adminUser?: unknown
+    redirectTo?: string
   }
 }

@@ -1,6 +1,5 @@
 /* eslint-disable max-len */
-import { buildAuthenticatedRouter } from "./buildAuthenticatedRouter";
-import { buildRouter } from "./buildRouter";
+import { Plugin } from './Plugin'
 
 /**
  * @module @adminjs/express
@@ -96,11 +95,10 @@ import { buildRouter } from "./buildRouter";
  * @static
  * @memberof module:@adminjs/express
  */
-export const name = "AdminJSExpressjs";
-export { SessionData } from "express-session";
+export const name = 'AdminJSExpress'
+export { SessionData } from 'express-session'
 
-module.exports = { name, buildAuthenticatedRouter, buildRouter };
+export default Plugin
 
-export default { name, buildAuthenticatedRouter, buildRouter };
-
-export { AuthenticationOptions, FormidableOptions } from "./types";
+export { FormidableOptions } from './types'
+export { default as AuthService } from './tmp/auth-service'

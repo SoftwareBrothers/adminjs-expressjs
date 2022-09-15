@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose'
 
-const { Schema } = mongoose;
+const { Schema } = mongoose
 
 const ArticleSchema = new Schema({
   title: String,
@@ -8,8 +8,8 @@ const ArticleSchema = new Schema({
   author: String,
   createdAt: Date,
   published: Boolean,
-});
+})
 
-const Article = mongoose.model("Article", ArticleSchema);
+const Article = mongoose.model('Article', ArticleSchema)
 
-module.exports = Article;
+module.exports = Article
