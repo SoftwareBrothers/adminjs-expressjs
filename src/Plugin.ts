@@ -125,23 +125,38 @@ export class Plugin extends BasePlugin<PluginOptions> {
     this.protectRoutes()
   }
 
-  public buildRoutes(): void {
-    const { routes } = AdminRouter
-
-    this.router.use(formidableMiddleware(this.options.formidableOptions ?? {}))
-
-    this.buildAuthenticationRoutes()
-
-    routes.forEach((route) => {
+  private buildMetadataRoute(routes: AdminRoute[]) {
+    const route = routes.find((r) => r.action === 'metadata')
+    if (route) {
       const expressPath = convertToExpressPath(route.path)
       const handler = this.getRouteHandler(route)
 
       if (route.method === 'GET') {
         this.router.get(expressPath, handler)
       }
+    }
+  }
 
-      if (route.method === 'POST') {
-        this.router.post(expressPath, handler)
+  public buildRoutes(): void {
+    const { routes } = AdminRouter
+
+    this.router.use(formidableMiddleware(this.options.formidableOptions ?? {}))
+
+    this.buildMetadataRoute(routes)
+    this.buildAuthenticationRoutes()
+
+    routes.forEach((route) => {
+      if (route.action !== 'metadata') {
+        const expressPath = convertToExpressPath(route.path)
+        const handler = this.getRouteHandler(route)
+
+        if (route.method === 'GET') {
+          this.router.get(expressPath, handler)
+        }
+
+        if (route.method === 'POST') {
+          this.router.post(expressPath, handler)
+        }
       }
     })
   }
