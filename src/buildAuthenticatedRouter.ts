@@ -1,11 +1,11 @@
-import AdminJS from "adminjs";
+import AdminJS, { Router as AdminRouter } from "adminjs";
 import express, { Router } from "express";
 import formidableMiddleware from "express-formidable";
 import session from "express-session";
 import { withLogin } from "./authentication/login.handler";
 import { withLogout } from "./authentication/logout.handler";
 import { withProtectedRoutesHandler } from "./authentication/protected-routes.handler";
-import { buildRouter } from "./buildRouter";
+import { buildAssets, buildRoutes, initializeAdmin } from "./buildRouter";
 import { OldBodyParserUsedError } from "./errors";
 import { AuthenticationOptions, FormidableOptions } from "./types";
 
@@ -52,6 +52,9 @@ export const buildAuthenticatedRouter = (
   sessionOptions?: session.SessionOptions,
   formidableOptions?: FormidableOptions
 ): Router => {
+  initializeAdmin(admin);
+
+  const { routes, assets } = AdminRouter;
   const router = predefinedRouter || express.Router();
 
   router.use((req, _, next) => {
@@ -70,9 +73,12 @@ export const buildAuthenticatedRouter = (
   );
   router.use(formidableMiddleware(formidableOptions));
 
-  withProtectedRoutesHandler(router, admin);
   withLogin(router, admin, auth);
   withLogout(router, admin);
+  buildAssets({ assets, router });
 
-  return buildRouter(admin, router, formidableOptions);
+  withProtectedRoutesHandler(router, admin);
+  buildRoutes({ admin, routes, router });
+
+  return router;
 };
