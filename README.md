@@ -12,7 +12,7 @@ Or visit [AdminJS](https://github.com/SoftwareBrothers/adminjs) github page.
 
 ## Usage
 
-To see example usage visit the [Express section under AdminJS project page](https://softwarebrothers.github.io/adminjs-dev/module-adminjs-expressjs.html)
+To see example usage visit the [Express section under AdminJS project page](https://docs.adminjs.co/installation/plugins/express)
 
 ## Debugging
 Set `process.env.ADMINJS_EXPRESS_DEBUG` env variable to see debug logs from the library
