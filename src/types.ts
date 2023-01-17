@@ -1,3 +1,4 @@
+import { Request, Response } from "express";
 export type FormidableOptions = {
   encoding?: string;
   uploadDir?: string;
@@ -8,6 +9,17 @@ export type FormidableOptions = {
   maxFields?: number;
   hash?: boolean | "sha1" | "md5";
   multiples?: boolean;
+};
+
+export type AuthenticationContext = {
+  /**
+   * @description Authentication request object
+   */
+  req: Request;
+  /**
+   * @description Authentication response object
+   */
+  res: Response;
 };
 
 export type AuthenticationMaxRetriesOptions = {
@@ -24,7 +36,11 @@ export type AuthenticationMaxRetriesOptions = {
 export type AuthenticationOptions = {
   cookiePassword: string;
   cookieName?: string;
-  authenticate: (email: string, password: string) => unknown | null;
+  authenticate: (
+    email: string,
+    password: string,
+    context?: AuthenticationContext
+  ) => unknown | null;
   /**
    * @description Maximum number of authorization attempts (if number - per minute)
    */
