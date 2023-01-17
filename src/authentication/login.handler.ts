@@ -1,7 +1,7 @@
 import AdminJS from "adminjs";
 import { Router } from "express";
 import {
-  AuthContext,
+  AuthenticationContext,
   AuthenticationMaxRetriesOptions,
   AuthenticationOptions,
 } from "../types";
@@ -90,7 +90,7 @@ export const withLogin = (
       email: string;
       password: string;
     };
-    const context: AuthContext = { req, res };
+    const context: AuthenticationContext = { req, res };
     const adminUser = await auth.authenticate(email, password, context);
     if (adminUser) {
       req.session.adminUser = adminUser;
