@@ -91,7 +91,14 @@ export const withLogin = (
       password: string;
     };
     const context: AuthenticationContext = { req, res };
-    const adminUser = await auth.authenticate(email, password, context);
+
+    let adminUser: ReturnType<AuthenticationOptions["authenticate"]> = null;
+    try {
+      adminUser = await auth.authenticate(email, password, context);
+    } catch {
+      // intentionally empty
+    }
+
     if (adminUser) {
       req.session.adminUser = adminUser;
       req.session.save((err) => {
