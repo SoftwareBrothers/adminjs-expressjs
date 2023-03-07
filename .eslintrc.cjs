@@ -6,7 +6,7 @@ module.exports = {
     "plugin:prettier/recommended",
   ],
   parserOptions: {
-    ecmaVersion: 2018,
+    ecmaVersion: 2020,
     sourceType: "module",
     ecmaFeatures: {
       jsx: true,

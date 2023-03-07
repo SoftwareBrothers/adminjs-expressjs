@@ -2,12 +2,13 @@ import AdminJS, { Router as AdminRouter } from "adminjs";
 import express, { Router } from "express";
 import formidableMiddleware from "express-formidable";
 import session from "express-session";
-import { withLogin } from "./authentication/login.handler";
-import { withLogout } from "./authentication/logout.handler";
-import { withProtectedRoutesHandler } from "./authentication/protected-routes.handler";
-import { buildAssets, buildRoutes, initializeAdmin } from "./buildRouter";
-import { OldBodyParserUsedError } from "./errors";
-import { AuthenticationOptions, FormidableOptions } from "./types";
+
+import { withLogin } from "./authentication/login.handler.js";
+import { withLogout } from "./authentication/logout.handler.js";
+import { withProtectedRoutesHandler } from "./authentication/protected-routes.handler.js";
+import { buildAssets, buildRoutes, initializeAdmin } from "./buildRouter.js";
+import { OldBodyParserUsedError } from "./errors.js";
+import { AuthenticationOptions, FormidableOptions } from "./types.js";
 
 /**
  * @typedef {Function} Authenticate
@@ -64,14 +65,15 @@ export const buildAuthenticatedRouter = (
     next();
   });
 
+  // todo fix types
   router.use(
     session({
       ...sessionOptions,
       secret: auth.cookiePassword,
       name: auth.cookieName || "adminjs",
-    })
+    }) as any
   );
-  router.use(formidableMiddleware(formidableOptions));
+  router.use(formidableMiddleware(formidableOptions) as any);
 
   withLogin(router, admin, auth);
   withLogout(router, admin);
