@@ -1,10 +1,11 @@
 import AdminJS from "adminjs";
 import { Router } from "express";
-import {
+
+import type {
   AuthenticationContext,
   AuthenticationMaxRetriesOptions,
   AuthenticationOptions,
-} from "../types";
+} from "../types.js";
 
 const getLoginPath = (admin: AdminJS): string => {
   const { loginPath, rootPath } = admin.options;

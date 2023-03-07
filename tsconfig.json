@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "sourceMap": true,
+    "module": "nodenext",
+    "sourceMap": false,
     "outDir": "lib",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -17,7 +17,7 @@
     "strictFunctionTypes": true,
     "strictBindCallApply": true,
     "noImplicitThis": true,
-    "moduleResolution": "node",
+    "moduleResolution": "nodenext",
     "baseUrl": "./",
     "typeRoots": ["./src/typings", "./node_modules/@types"]
   },

@@ -2,27 +2,28 @@ import AdminJS, { Router as AdminRouter } from "adminjs";
 import { RequestHandler, Router } from "express";
 import formidableMiddleware from "express-formidable";
 import path from "path";
-import { WrongArgumentError } from "./errors";
-import { log } from "./logger";
-import { FormidableOptions } from "./types";
-import { convertToExpressRoute } from "./convertRoutes";
+
+import { WrongArgumentError } from "./errors.js";
+import { log } from "./logger.js";
+import { FormidableOptions } from "./types.js";
+import { convertToExpressRoute } from "./convertRoutes.js";
 
 const INVALID_ADMINJS_INSTANCE =
   "You have to pass an instance of AdminJS to the buildRouter() function";
 
 export type RouteHandlerArgs = {
   admin: AdminJS;
-  route: typeof AdminRouter["routes"][0];
+  route: (typeof AdminRouter)["routes"][0];
 };
 
 export type BuildRoutesArgs = {
   admin: AdminJS;
-  routes: typeof AdminRouter["routes"];
+  routes: (typeof AdminRouter)["routes"];
   router: Router;
 };
 
 export type BuildAssetsArgs = {
-  assets: typeof AdminRouter["assets"];
+  assets: (typeof AdminRouter)["assets"];
   router: Router;
 };
 
@@ -36,41 +37,40 @@ export const initializeAdmin = (admin: AdminJS): void => {
   });
 };
 
-export const routeHandler = ({
-  admin,
-  route,
-}: RouteHandlerArgs): RequestHandler => async (req, res, next) => {
-  try {
-    const controller = new route.Controller(
-      { admin },
-      req.session && req.session.adminUser
-    );
-    const { params, query } = req;
-    const method = req.method.toLowerCase();
-    const payload = {
-      ...(req.fields || {}),
-      ...(req.files || {}),
-    };
-    const html = await controller[route.action](
-      {
-        ...req,
-        params,
-        query,
-        payload,
-        method,
-      },
-      res
-    );
-    if (route.contentType) {
-      res.set({ "Content-Type": route.contentType });
+export const routeHandler =
+  ({ admin, route }: RouteHandlerArgs): RequestHandler =>
+  async (req, res, next) => {
+    try {
+      const controller = new route.Controller(
+        { admin },
+        req.session && req.session.adminUser
+      );
+      const { params, query } = req;
+      const method = req.method.toLowerCase();
+      const payload = {
+        ...(req.fields || {}),
+        ...(req.files || {}),
+      };
+      const html = await controller[route.action](
+        {
+          ...req,
+          params,
+          query,
+          payload,
+          method,
+        },
+        res
+      );
+      if (route.contentType) {
+        res.set({ "Content-Type": route.contentType });
+      }
+      if (html) {
+        res.send(html);
+      }
+    } catch (e) {
+      next(e);
     }
-    if (html) {
-      res.send(html);
-    }
-  } catch (e) {
-    next(e);
-  }
-};
+  };
 
 export const buildRoutes = ({
   admin,
@@ -108,7 +108,8 @@ export const buildRouter = (
 
   const { routes, assets } = AdminRouter;
   const router = predefinedRouter ?? Router();
-  router.use(formidableMiddleware(formidableOptions));
+  // todo fix types
+  router.use(formidableMiddleware(formidableOptions) as any);
 
   buildRoutes({ admin, routes, router });
   buildAssets({ assets, router });

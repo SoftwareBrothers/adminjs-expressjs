@@ -2,10 +2,10 @@ import MongooseAdapter from "@adminjs/mongoose";
 import AdminJS from "adminjs";
 import express from "express";
 import mongoose from "mongoose";
-import AdminJSExpress from "../src";
-import "./mongoose/admin-model";
 
-import "./mongoose/article-model";
+import AdminJSExpress from "../src/index.js";
+import "./mongoose/admin-model.js";
+import "./mongoose/article-model.js";
 
 AdminJS.registerAdapter(MongooseAdapter);
 

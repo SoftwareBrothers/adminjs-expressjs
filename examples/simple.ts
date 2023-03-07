@@ -3,16 +3,15 @@ import express from "express";
 import mongoose from "mongoose";
 import MongooseAdapter from "@adminjs/mongoose";
 
-import AdminJSExpress from "../src";
-import "./mongoose/article-model";
-import "./mongoose/admin-model";
+import AdminJSExpress from "../src/index.js";
+import "./mongoose/article-model.js";
+import "./mongoose/admin-model.js";
 
 AdminJS.registerAdapter(MongooseAdapter);
 
 const start = async () => {
   const connection = await mongoose.connect(
-    process.env.MONGO_URL || "mongodb://localhost:27017/example",
-    { useNewUrlParser: true, useUnifiedTopology: true }
+    process.env.MONGO_URL || "mongodb://localhost:27017/example"
   );
   const app = express();
 
