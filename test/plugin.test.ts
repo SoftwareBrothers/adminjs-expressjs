@@ -1,5 +1,5 @@
-import express from "express";
 import AdminJS from "adminjs";
+import express from "express";
 import { buildRouter } from "../src/buildRouter";
 
 describe("plugin", () => {
