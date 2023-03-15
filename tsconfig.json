@@ -19,7 +19,8 @@
     "noImplicitThis": true,
     "moduleResolution": "nodenext",
     "baseUrl": "./",
-    "typeRoots": ["./src/typings", "./node_modules/@types"]
+    "typeRoots": ["./src/typings", "./node_modules/@types"],
+    "allowJs": true
   },
   "exclude": ["lib", "types", "test", "examples"]
 }
