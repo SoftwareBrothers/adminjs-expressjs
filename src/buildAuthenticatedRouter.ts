@@ -77,7 +77,7 @@ export const buildAuthenticatedRouter = (
 
   withLogin(router, admin, auth);
   withLogout(router, admin);
-  buildAssets({ assets, router });
+  buildAssets({ admin, assets, routes, router });
 
   withProtectedRoutesHandler(router, admin);
   buildRoutes({ admin, routes, router });
