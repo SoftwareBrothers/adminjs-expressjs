@@ -23,7 +23,9 @@ export type BuildRoutesArgs = {
 };
 
 export type BuildAssetsArgs = {
+  admin: AdminJS;
   assets: (typeof AdminRouter)["assets"];
+  routes: (typeof AdminRouter)["routes"];
   router: Router;
 };
 
@@ -72,26 +74,50 @@ export const routeHandler =
     }
   };
 
+export const buildRoute = ({
+  route,
+  router,
+  admin,
+}: {
+  route: (typeof AdminRouter)["routes"][number];
+  router: Router;
+  admin: AdminJS;
+}) => {
+  // we have to change routes defined in AdminJS from {recordId} to :recordId
+  const expressPath = convertToExpressRoute(route.path);
+
+  if (route.method === "GET") {
+    router.get(expressPath, routeHandler({ admin, route }));
+  }
+
+  if (route.method === "POST") {
+    router.post(expressPath, routeHandler({ admin, route }));
+  }
+};
+
 export const buildRoutes = ({
   admin,
   routes,
   router,
 }: BuildRoutesArgs): void => {
-  routes.forEach((route) => {
-    // we have to change routes defined in AdminJS from {recordId} to :recordId
-    const expressPath = convertToExpressRoute(route.path);
-
-    if (route.method === "GET") {
-      router.get(expressPath, routeHandler({ admin, route }));
-    }
-
-    if (route.method === "POST") {
-      router.post(expressPath, routeHandler({ admin, route }));
-    }
-  });
+  routes.forEach((route) => buildRoute({ route, router, admin }));
 };
 
-export const buildAssets = ({ assets, router }: BuildAssetsArgs): void => {
+export const buildAssets = ({
+  admin,
+  assets,
+  routes,
+  router,
+}: BuildAssetsArgs): void => {
+  // Note: We want components.bundle.js to be globally available. In production it is served as a .js asset, meanwhile
+  // in local environments it's a route with "bundleComponents" action assigned.
+  const componentBundlerRoute = routes.find(
+    (r) => r.action === "bundleComponents"
+  );
+  if (componentBundlerRoute) {
+    buildRoute({ route: componentBundlerRoute, router, admin });
+  }
+
   assets.forEach((asset) => {
     router.get(asset.path, async (_req, res) => {
       res.sendFile(path.resolve(asset.src));
@@ -111,8 +137,8 @@ export const buildRouter = (
   // todo fix types
   router.use(formidableMiddleware(formidableOptions) as any);
 
+  buildAssets({ admin, assets, routes, router });
   buildRoutes({ admin, routes, router });
-  buildAssets({ assets, router });
 
   return router;
 };
