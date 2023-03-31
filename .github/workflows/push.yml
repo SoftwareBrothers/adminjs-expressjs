@@ -51,9 +51,8 @@ jobs:
         run: yarn lint
       - name: Build
         run: yarn build
-      # TODO: Figure out why tests fail in CI but pass locally
-      # - name: test
-      #   run: yarn test
+      - name: test
+        run: yarn test
 
   publish:
     name: Publish
