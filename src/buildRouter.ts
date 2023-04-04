@@ -118,6 +118,7 @@ export const buildAssets = ({
     buildRoute({ route: componentBundlerRoute, router, admin });
   }
 
+export const buildAssets = ({ assets, router }: BuildAssetsArgs): void => {
   assets.forEach((asset) => {
     router.get(asset.path, async (_req, res) => {
       res.sendFile(path.resolve(asset.src));
