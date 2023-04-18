@@ -1,6 +1,10 @@
+import { AdminJS } from "adminjs";
 import express from "express";
-import AdminJS from "adminjs";
+import { jest } from "@jest/globals";
+
 import { buildRouter } from "../src/buildRouter";
+
+jest.useFakeTimers();
 
 describe("plugin", () => {
   describe(".buildRouter", () => {
