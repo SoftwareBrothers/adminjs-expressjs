@@ -109,4 +109,17 @@ const plugin: ExpressPlugin = { name, buildAuthenticatedRouter, buildRouter };
 
 export default plugin;
 
-export type { AuthenticationOptions, FormidableOptions } from "./types.js";
+export type {
+  AuthenticationOptions,
+  FormidableOptions,
+  AuthenticationMaxRetriesOptions,
+  AuthenticationContext,
+} from "./types.js";
+export * from "./buildRouter.js";
+export * from "./buildAuthenticatedRouter.js";
+export * from "./convertRoutes.js";
+export * from "./errors.js";
+export * from "./logger.js";
+export * from "./authentication/login.handler.js";
+export * from "./authentication/logout.handler.js";
+export * from "./authentication/protected-routes.handler.js";
