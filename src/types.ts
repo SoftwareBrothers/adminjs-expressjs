@@ -1,3 +1,4 @@
+import { BaseAuthProvider } from "adminjs";
 import { Request, Response } from "express";
 
 export type FormidableOptions = {
@@ -37,7 +38,7 @@ export type AuthenticationMaxRetriesOptions = {
 export type AuthenticationOptions = {
   cookiePassword: string;
   cookieName?: string;
-  authenticate: (
+  authenticate?: (
     email: string,
     password: string,
     context?: AuthenticationContext
@@ -46,4 +47,5 @@ export type AuthenticationOptions = {
    * @description Maximum number of authorization attempts (if number - per minute)
    */
   maxRetries?: number | AuthenticationMaxRetriesOptions;
+  provider?: BaseAuthProvider;
 };

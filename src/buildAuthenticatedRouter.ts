@@ -7,8 +7,14 @@ import { withLogin } from "./authentication/login.handler.js";
 import { withLogout } from "./authentication/logout.handler.js";
 import { withProtectedRoutesHandler } from "./authentication/protected-routes.handler.js";
 import { buildAssets, buildRoutes, initializeAdmin } from "./buildRouter.js";
-import { OldBodyParserUsedError } from "./errors.js";
+import { OldBodyParserUsedError, WrongArgumentError } from "./errors.js";
 import { AuthenticationOptions, FormidableOptions } from "./types.js";
+import { withRefresh } from "./authentication/refresh.handler.js";
+
+const MISSING_AUTH_CONFIG_ERROR =
+  'You must configure either "authenticate" method or assign an auth "provider"';
+const INVALID_AUTH_CONFIG_ERROR =
+  'You cannot configure both "authenticate" and "provider". "authenticate" will be removed in next major release.';
 
 /**
  * @typedef {Function} Authenticate
@@ -58,6 +64,21 @@ export const buildAuthenticatedRouter = (
   const { routes, assets } = AdminRouter;
   const router = predefinedRouter || express.Router();
 
+  if (!auth.authenticate && !auth.provider) {
+    throw new WrongArgumentError(MISSING_AUTH_CONFIG_ERROR);
+  }
+
+  if (auth.authenticate && auth.provider) {
+    throw new WrongArgumentError(INVALID_AUTH_CONFIG_ERROR);
+  }
+
+  if (auth.provider) {
+    admin.options.env = {
+      ...admin.options.env,
+      ...auth.provider.getUiProps(),
+    };
+  }
+
   router.use((req, _, next) => {
     if ((req as any)._body) {
       next(new OldBodyParserUsedError());
@@ -76,10 +97,11 @@ export const buildAuthenticatedRouter = (
   router.use(formidableMiddleware(formidableOptions) as any);
 
   withLogin(router, admin, auth);
-  withLogout(router, admin);
+  withLogout(router, admin, auth);
   buildAssets({ admin, assets, routes, router });
 
   withProtectedRoutesHandler(router, admin);
+  withRefresh(router, admin, auth);
   buildRoutes({ admin, routes, router });
 
   return router;
