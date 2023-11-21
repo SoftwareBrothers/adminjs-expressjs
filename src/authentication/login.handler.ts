@@ -70,12 +70,20 @@ export const withLogin = (
   const { rootPath } = admin.options;
   const loginPath = getLoginPath(admin);
 
+  const { provider } = auth;
+  const providerProps = provider?.getUiProps?.() ?? {};
+
   router.get(loginPath, async (req, res) => {
-    const login = await admin.renderLogin({
+    const baseProps = {
       action: admin.options.loginPath,
       errorMessage: null,
+    };
+    const login = await admin.renderLogin({
+      ...baseProps,
+      ...providerProps,
     });
-    res.send(login);
+
+    return res.send(login);
   });
 
   router.post(loginPath, async (req, res, next) => {
@@ -83,34 +91,54 @@ export const withLogin = (
       const login = await admin.renderLogin({
         action: admin.options.loginPath,
         errorMessage: "tooManyRequests",
+        ...providerProps,
       });
-      res.send(login);
-      return;
+
+      return res.send(login);
     }
-    const { email, password } = req.fields as {
-      email: string;
-      password: string;
-    };
+
     const context: AuthenticationContext = { req, res };
-    const adminUser = await auth.authenticate(email, password, context);
+
+    let adminUser;
+    if (provider) {
+      adminUser = await provider.handleLogin(
+        {
+          headers: req.headers,
+          query: req.query,
+          params: req.params,
+          data: req.fields ?? {},
+        },
+        context
+      );
+    } else {
+      const { email, password } = req.fields as {
+        email: string;
+        password: string;
+      };
+      // "auth.authenticate" must always be defined if "auth.provider" isn't
+      adminUser = await auth.authenticate!(email, password, context);
+    }
+
     if (adminUser) {
       req.session.adminUser = adminUser;
       req.session.save((err) => {
         if (err) {
-          next(err);
+          return next(err);
         }
         if (req.session.redirectTo) {
-          res.redirect(302, req.session.redirectTo);
+          return res.redirect(302, req.session.redirectTo);
         } else {
-          res.redirect(302, rootPath);
+          return res.redirect(302, rootPath);
         }
       });
     } else {
       const login = await admin.renderLogin({
         action: admin.options.loginPath,
         errorMessage: "invalidCredentials",
+        ...providerProps,
       });
-      res.send(login);
+
+      return res.send(login);
     }
   });
 };
