@@ -7,14 +7,14 @@ import { withLogin } from "./authentication/login.handler.js";
 import { withLogout } from "./authentication/logout.handler.js";
 import { withProtectedRoutesHandler } from "./authentication/protected-routes.handler.js";
 import { buildAssets, buildRoutes, initializeAdmin } from "./buildRouter.js";
-import { OldBodyParserUsedError, WrongArgumentError } from "./errors.js";
+import {
+  INVALID_AUTH_CONFIG_ERROR,
+  MISSING_AUTH_CONFIG_ERROR,
+  OldBodyParserUsedError,
+  WrongArgumentError,
+} from "./errors.js";
 import { AuthenticationOptions, FormidableOptions } from "./types.js";
 import { withRefresh } from "./authentication/refresh.handler.js";
-
-const MISSING_AUTH_CONFIG_ERROR =
-  'You must configure either "authenticate" method or assign an auth "provider"';
-const INVALID_AUTH_CONFIG_ERROR =
-  'You cannot configure both "authenticate" and "provider". "authenticate" will be removed in next major release.';
 
 /**
  * @typedef {Function} Authenticate
