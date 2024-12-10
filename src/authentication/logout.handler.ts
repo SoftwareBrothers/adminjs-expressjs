@@ -22,7 +22,11 @@ export const withLogout = (
 
   router.get(logoutPath, async (request, response) => {
     if (provider) {
-      await provider.handleLogout({ req: request, res: response });
+      try {
+        await provider.handleLogout({ req: request, res: response });
+      } catch (error) {
+        console.error(error); // fail silently and still logout
+      }
     }
 
     request.session.destroy(() => {

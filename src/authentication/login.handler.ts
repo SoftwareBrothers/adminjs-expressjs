@@ -6,6 +6,7 @@ import type {
   AuthenticationMaxRetriesOptions,
   AuthenticationOptions,
 } from "../types.js";
+import { INVALID_AUTH_CONFIG_ERROR, WrongArgumentError } from "../errors.js";
 
 const getLoginPath = (admin: AdminJS): string => {
   const { loginPath, rootPath } = admin.options;
@@ -100,23 +101,37 @@ export const withLogin = (
     const context: AuthenticationContext = { req, res };
 
     let adminUser;
-    if (provider) {
-      adminUser = await provider.handleLogin(
-        {
-          headers: req.headers,
-          query: req.query,
-          params: req.params,
-          data: req.fields ?? {},
-        },
-        context
-      );
-    } else {
-      const { email, password } = req.fields as {
-        email: string;
-        password: string;
-      };
-      // "auth.authenticate" must always be defined if "auth.provider" isn't
-      adminUser = await auth.authenticate!(email, password, context);
+    try {
+      if (provider) {
+        adminUser = await provider.handleLogin(
+          {
+            headers: req.headers,
+            query: req.query,
+            params: req.params,
+            data: req.fields ?? {},
+          },
+          context
+        );
+      } else if (auth.authenticate) {
+        const { email, password } = req.fields as {
+          email: string;
+          password: string;
+        };
+        // "auth.authenticate" must always be defined if "auth.provider" isn't
+        adminUser = await auth.authenticate(email, password, context);
+      } else {
+        throw new WrongArgumentError(INVALID_AUTH_CONFIG_ERROR);
+      }
+    } catch (error) {
+      const errorMessage = error.message || error.error || "invalidCredentials";
+
+      const loginPage = await admin.renderLogin({
+        action: admin.options.loginPath,
+        errorMessage,
+        ...providerProps,
+      });
+
+      return res.status(400).send(loginPage);
     }
 
     if (adminUser) {
