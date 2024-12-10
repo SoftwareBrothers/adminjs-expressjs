@@ -1,6 +1,6 @@
 {
   "name": "@adminjs/express",
-  "version": "6.1.0",
+  "version": "6.1.1",
   "description": "This is an official AdminJS plugin which integrates it with Express.js framework",
   "main": "lib/index.js",
   "type": "module",
